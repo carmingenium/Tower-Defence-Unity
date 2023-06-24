@@ -7,6 +7,16 @@ public class Tile : MonoBehaviour
     public state tileState;
     public int roadVal;
 
+    public Sprite Platform;
+
+    public void ChangeSprite()
+    {
+        if(tileState == state.Empty)
+        {
+            tileState += 1;
+            this.GetComponent<SpriteRenderer>().sprite = Platform;
+        }
+    }
 }
 public enum state
 {

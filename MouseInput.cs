@@ -5,19 +5,16 @@ using UnityEngine.Tilemaps;
 
 public class MouseInput : MonoBehaviour
 {
+    Tile thisTile;
     Sprite current;
     public Sprite target;
     private void Start()
     {
+        thisTile = this.GetComponent<Tile>();
         current = this.GetComponent<SpriteRenderer>().sprite;
     }
     private void OnMouseDown()
     {
-        ChangeSprite();
-    }
-    void ChangeSprite()
-    {
-        if (current != target)
-            this.GetComponent<SpriteRenderer>().sprite = target;
+        thisTile.ChangeSprite();
     }
 }
