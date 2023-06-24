@@ -4,15 +4,34 @@ using UnityEngine;
 
 public class TilemapController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public Tile activePanelTile;
+    public bool activePanel;
+
+    public void PanelDeactivate(GameObject panel)
     {
-        
+        panel.SetActive(false);
+        activePanelTile = null;
+        activePanel = false;
+    }
+    public void ChangeState(string stateInput, Sprite inputSprite)
+    {
+        activePanelTile.tileState = ReceiveState(stateInput);
+        activePanelTile.transform.gameObject.GetComponent<SpriteRenderer>().sprite = inputSprite;
+    }
+    public state ReceiveState(string stateString)
+    {
+        switch (stateString)
+        {
+            case "Empty":
+                return state.Empty;
+            case "Platform":
+                return state.Platformed;
+            case "Tower1":
+                return state.tower1;
+            case "Tower2":
+                return state.tower2;
+        }
+        return state.Corrupted; // ERROR
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

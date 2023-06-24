@@ -15,6 +15,6 @@ public class MouseInput : MonoBehaviour
     }
     private void OnMouseDown()
     {
-        thisTile.ChangeSprite();
+        thisTile.PanelOpen();
     }
 }
