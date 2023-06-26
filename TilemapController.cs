@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TilemapController : MonoBehaviour
 {
@@ -13,10 +14,16 @@ public class TilemapController : MonoBehaviour
         activePanelTile = null;
         activePanel = false;
     }
-    public void ChangeState(string stateInput, Sprite inputSprite)
+    public void ChangeState(Sprite inputSprite)
     {
-        activePanelTile.tileState = ReceiveState(stateInput);
+        //activePanelTile.tileState = ReceiveState();
         activePanelTile.transform.gameObject.GetComponent<SpriteRenderer>().sprite = inputSprite;
+    }
+    public void ChangeState(GameObject button)
+    {
+        activePanelTile.tileState = ReceiveState(button.name);
+        activePanelTile.transform.gameObject.GetComponent<SpriteRenderer>().sprite = button.transform.GetComponent<Image>().sprite;
+        PanelDeactivate(button.transform.parent.gameObject);
     }
     public state ReceiveState(string stateString)
     {

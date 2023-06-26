@@ -55,10 +55,34 @@ public class Tile : MonoBehaviour
                 // Back to Empty (Sell)
                 break;
             case state.tower1:
+                GameObject panelTower1 = null;
+                foreach (GameObject go in Resources.FindObjectsOfTypeAll(typeof(GameObject)) as GameObject[])
+                {
+                    if (go.name.Equals("Tower1 - Panel"))
+                        panelTower1 = go;
+                }
+                if (!this.transform.root.GetComponent<TilemapController>().activePanel)
+                {
+                    transform.root.GetComponent<TilemapController>().activePanelTile = this;
+                    panelTower1.SetActive(true);
+                    transform.root.GetComponent<TilemapController>().activePanel = true;
+                }
                 // Sell
                 // Upgrade
                 break;
             case state.tower2:
+                GameObject panelTower2 = null;
+                foreach (GameObject go in Resources.FindObjectsOfTypeAll(typeof(GameObject)) as GameObject[])
+                {
+                    if (go.name.Equals("Tower2 - Panel"))
+                        panelTower2 = go;
+                }
+                if (!this.transform.root.GetComponent<TilemapController>().activePanel)
+                {
+                    transform.root.GetComponent<TilemapController>().activePanelTile = this;
+                    panelTower2.SetActive(true);
+                    transform.root.GetComponent<TilemapController>().activePanel = true;
+                }
                 // Sell
                 // Upgrade
                 break;

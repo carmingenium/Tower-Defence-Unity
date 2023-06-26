@@ -13,7 +13,7 @@ public class MouseInput : MonoBehaviour
         thisTile = this.GetComponent<Tile>();
         current = this.GetComponent<SpriteRenderer>().sprite;
     }
-    private void OnMouseDown()
+    private void OnMouseUp()
     {
         thisTile.PanelOpen();
     }
