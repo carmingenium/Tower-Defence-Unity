@@ -6,8 +6,8 @@ public class Tile : MonoBehaviour
 {
     public state tileState;
     public int roadVal;
-
-    public Sprite Platform;
+    public int posx;
+    public int posy;
 
     public void PanelOpen()
     {
@@ -18,6 +18,18 @@ public class Tile : MonoBehaviour
             case state.Corrupted:
                 break;
             case state.Resource:
+                GameObject panelGold = null;
+                foreach (GameObject go in Resources.FindObjectsOfTypeAll(typeof(GameObject)) as GameObject[])
+                {
+                    if (go.name.Equals("Gold - Panel"))
+                        panelGold = go;
+                }
+                if (!this.transform.root.GetComponent<TilemapController>().activePanel)
+                {
+                    transform.root.GetComponent<TilemapController>().activePanelTile = this;
+                    panelGold.SetActive(true);
+                    transform.root.GetComponent<TilemapController>().activePanel = true;
+                }
                 // add mine
                 break;
             case state.Boulder:
@@ -87,19 +99,45 @@ public class Tile : MonoBehaviour
                 // Upgrade
                 break;
             case state.Mine:
+                GameObject panelGoldmine = null;
+                foreach (GameObject go in Resources.FindObjectsOfTypeAll(typeof(GameObject)) as GameObject[])
+                {
+                    if (go.name.Equals("Goldmine - Panel"))
+                        panelGoldmine = go;
+                }
+                if (!this.transform.root.GetComponent<TilemapController>().activePanel)
+                {
+                    transform.root.GetComponent<TilemapController>().activePanelTile = this;
+                    panelGoldmine.SetActive(true);
+                    transform.root.GetComponent<TilemapController>().activePanel = true;
+                }
                 // Sell
                 // Upgrade
                 break;
         }
     }
-    //public void ChangeSprite(state input)
-    //{
-    //    if(tileState == state.Empty)
-    //    {
-    //        tileState += 1;
-    //        this.GetComponent<SpriteRenderer>().sprite = Platform;
-    //    }
-    //}
+
+    public int[] getPos()
+    {
+        //Tile[,] tilemap = this.transform.root.gameObject.GetComponent<TilemapController>().TileArray;
+        //int[] pos = new int[2];
+        //for (int x = 0; x < 20; x++)
+        //{
+        //    for (int y = 0; y < 20; y++)
+        //    {
+        //        if (tilemap[x, y].Equals(this))
+        //        {
+        //            pos[0] = x;
+        //            pos[1] = y;
+        //            return pos;
+        //        }
+        //    }
+        //}
+        int[] pos = new int[2];
+        pos[0] = posx;
+        pos[1] = posy;
+        return pos;
+    }
 }
 public enum state
 {
