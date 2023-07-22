@@ -5,11 +5,12 @@ using System;
 
 public class EnemySpawner : MonoBehaviour
 {
+
     public int r;
     public GameObject enemyPrefab;
     void Start()
     {
-        for (int i = 0; i < 125; i++)
+        for (int i = 0; i < 25; i++)
         {
             Vector2 EnemySpawnPoint = CircleSpawnFunction();
             Vector3 convert = new Vector3(EnemySpawnPoint.x, EnemySpawnPoint.y, 0);
