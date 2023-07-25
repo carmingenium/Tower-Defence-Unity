@@ -75,6 +75,8 @@ public class TilemapController : MonoBehaviour
         // find target sprite //
         Sprite targetSprite = allSprites[7]; // targetsprite location = 4
         ChangeState(TileArray[TargetX, TargetY], state.Target, targetSprite);
+        // changing targets collider, so that it can take damage
+        TileArray[TargetX, TargetY].gameObject.GetComponent<Collider2D>().isTrigger = false;
         // adding target to the genList, so that it wont be used again in gen.
 
 

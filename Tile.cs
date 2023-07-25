@@ -119,20 +119,6 @@ public class Tile : MonoBehaviour
 
     public int[] getPos()
     {
-        //Tile[,] tilemap = this.transform.root.gameObject.GetComponent<TilemapController>().TileArray;
-        //int[] pos = new int[2];
-        //for (int x = 0; x < 20; x++)
-        //{
-        //    for (int y = 0; y < 20; y++)
-        //    {
-        //        if (tilemap[x, y].Equals(this))
-        //        {
-        //            pos[0] = x;
-        //            pos[1] = y;
-        //            return pos;
-        //        }
-        //    }
-        //}
         int[] pos = new int[2];
         pos[0] = posx;
         pos[1] = posy;
@@ -144,6 +130,10 @@ public class Tile : MonoBehaviour
         {
             collision.GetComponent<EnemyAI>().behaviour = "tilepath";
         }
+    }
+    public void OnCollisionEnter2D(Collision2D collision)
+    {
+        // only for target / core tile, to take damage.
     }
 }
 public enum state
