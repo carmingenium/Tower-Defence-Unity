@@ -175,4 +175,12 @@ public class Pathfinding : MonoBehaviour
         directions[3] = left;
         return directions;
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.transform.CompareTag("Enemy"))
+        {
+            collision.gameObject.GetComponent<EnemyAI>().behaviour = "firsttile";
+        }
+    }
 }

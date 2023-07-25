@@ -138,6 +138,13 @@ public class Tile : MonoBehaviour
         pos[1] = posy;
         return pos;
     }
+    public void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.transform.CompareTag("Enemy"))
+        {
+            collision.GetComponent<EnemyAI>().behaviour = "tilepath";
+        }
+    }
 }
 public enum state
 {
