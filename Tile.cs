@@ -128,8 +128,21 @@ public class Tile : MonoBehaviour
     {
         if (collision.transform.CompareTag("Enemy"))
         {
-            collision.GetComponent<EnemyAI>().behaviour = "tilepath";
+            if(collision.GetComponent<EnemyAI>().behaviour != "tilepath")
+            {
+                collision.GetComponent<EnemyAI>().behaviour = "tilepath";
+                collision.GetComponent<EnemyAI>().currentOnTile = this;
+            }
         }
+    }
+    public void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.transform.CompareTag("Enemy"))
+        {
+            if(Vector3.Distance(this.transform.position,collision.transform.position) < 0.1f)
+            collision.GetComponent<EnemyAI>().currentOnTile = this;
+        }
+        
     }
     public void OnCollisionEnter2D(Collision2D collision)
     {

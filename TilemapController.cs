@@ -39,6 +39,7 @@ public class TilemapController : MonoBehaviour
     {
         activePanelTile.tileState = ReceiveState(button.name);
         activePanelTile.transform.gameObject.GetComponent<SpriteRenderer>().sprite = button.transform.GetComponent<Image>().sprite;
+
         PanelDeactivate(button.transform.parent.gameObject);
         this.gameObject.GetComponent<Pathfinding>().pathfindValueSet();
     }
@@ -54,14 +55,17 @@ public class TilemapController : MonoBehaviour
             case "Empty":
                 return state.Empty;
             case "Platform":
+                activePanelTile.GetComponent<Collider2D>().isTrigger = false;
                 return state.Platformed;
             case "Goldmine":
                 return state.Mine;
             case "Gold":
                 return state.Resource;
             case "Tower1":
+                activePanelTile.GetComponent<Collider2D>().isTrigger = false;
                 return state.tower1;
             case "Tower2":
+                activePanelTile.GetComponent<Collider2D>().isTrigger = false;
                 return state.tower2;
         }
         return state.Corrupted; // ERROR

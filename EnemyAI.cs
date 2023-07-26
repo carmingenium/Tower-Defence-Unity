@@ -29,7 +29,7 @@ public class EnemyAI : MonoBehaviour
         {
             FirstTile();
         }
-        else if (behaviour.Equals("tilepath"))
+        else if (behaviour.Equals("tilepath")) // && this.transform.position == currentOnTile.transform.position
         {
             // use tile values to find way.
             tilePathfinding();
@@ -59,6 +59,10 @@ public class EnemyAI : MonoBehaviour
             }
         }
         direction = new Vector2(closestTile.transform.position.x - this.transform.position.x, closestTile.transform.position.y - this.transform.position.y);
+    }
+    public void distanceCheck()
+    {
+
     }
     public void tilePathfinding()
     {
@@ -112,35 +116,28 @@ public class EnemyAI : MonoBehaviour
             // go up
             Vector3 newTargetTilePos = GameObject.FindGameObjectWithTag("Tilemap").GetComponent<TilemapController>().TileArray[currentOnTile.posx, currentOnTile.posy + 1].transform.position;
             direction = new Vector2(newTargetTilePos.x - this.transform.position.x, newTargetTilePos.y - this.transform.position.y);
+            //direction = Vector2.up;
         }
         if (lowestPos == 1)
         {
             // go down
             Vector3 newTargetTilePos = GameObject.FindGameObjectWithTag("Tilemap").GetComponent<TilemapController>().TileArray[currentOnTile.posx, currentOnTile.posy - 1].transform.position;
             direction = new Vector2(newTargetTilePos.x - this.transform.position.x, newTargetTilePos.y - this.transform.position.y);
+            //direction = Vector2.down;
         }
         if (lowestPos == 2)
         {
             // go right
             Vector3 newTargetTilePos = GameObject.FindGameObjectWithTag("Tilemap").GetComponent<TilemapController>().TileArray[currentOnTile.posx + 1, currentOnTile.posy].transform.position;
             direction = new Vector2(newTargetTilePos.x - this.transform.position.x, newTargetTilePos.y - this.transform.position.y);
+            //direction = Vector2.right;
         }
         if (lowestPos == 3)
         {
             // go left
             Vector3 newTargetTilePos = GameObject.FindGameObjectWithTag("Tilemap").GetComponent<TilemapController>().TileArray[currentOnTile.posx - 1, currentOnTile.posy].transform.position;
             direction = new Vector2(newTargetTilePos.x - this.transform.position.x, newTargetTilePos.y - this.transform.position.y);
-        }
-    }
-    public void OnTriggerStay2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Tile"))
-        {
-            currentOnTile = collision.gameObject.GetComponent<Tile>();
-            if (collision.gameObject.GetComponent<Tile>().tileState.Equals(state.Target))
-            {
-                // deal damage and destroy self
-            }
+            //direction = Vector2.left;
         }
     }
 }
