@@ -10,7 +10,7 @@ public class EnemyAI : MonoBehaviour
     Vector2 direction;
     public Rigidbody2D rb;
     //
-    Tile currentOnTile;
+    public Tile currentOnTile;
     void Start()
     {
         behaviour = "getclose";
@@ -88,6 +88,10 @@ public class EnemyAI : MonoBehaviour
                     roadVals[i] = GameObject.FindGameObjectWithTag("Tilemap").GetComponent<TilemapController>().TileArray[currentOnTile.posx - 1, currentOnTile.posy].roadVal;
                 }
             }
+            else
+            {
+                roadVals[i] = 999;
+            }
         }
         // find lowest value tile
         float lowest = 998;
@@ -102,38 +106,41 @@ public class EnemyAI : MonoBehaviour
                 lowestPos = lowIndex;
             }
         }
-        // THE BUG IS THAT YOU CANNOT CHECK NONEXISTENT TILES FOR IF THEY ARE REAL
-
+        
         if (lowestPos == 0)
         {
-            // go
+            // go up
             Vector3 newTargetTilePos = GameObject.FindGameObjectWithTag("Tilemap").GetComponent<TilemapController>().TileArray[currentOnTile.posx, currentOnTile.posy + 1].transform.position;
             direction = new Vector2(newTargetTilePos.x - this.transform.position.x, newTargetTilePos.y - this.transform.position.y);
         }
         if (lowestPos == 1)
         {
-            // go
+            // go down
             Vector3 newTargetTilePos = GameObject.FindGameObjectWithTag("Tilemap").GetComponent<TilemapController>().TileArray[currentOnTile.posx, currentOnTile.posy - 1].transform.position;
             direction = new Vector2(newTargetTilePos.x - this.transform.position.x, newTargetTilePos.y - this.transform.position.y);
         }
         if (lowestPos == 2)
         {
-            // go
+            // go right
             Vector3 newTargetTilePos = GameObject.FindGameObjectWithTag("Tilemap").GetComponent<TilemapController>().TileArray[currentOnTile.posx + 1, currentOnTile.posy].transform.position;
             direction = new Vector2(newTargetTilePos.x - this.transform.position.x, newTargetTilePos.y - this.transform.position.y);
         }
         if (lowestPos == 3)
         {
-            // go
+            // go left
             Vector3 newTargetTilePos = GameObject.FindGameObjectWithTag("Tilemap").GetComponent<TilemapController>().TileArray[currentOnTile.posx - 1, currentOnTile.posy].transform.position;
             direction = new Vector2(newTargetTilePos.x - this.transform.position.x, newTargetTilePos.y - this.transform.position.y);
         }
     }
-    public void OnTriggerEnter2D(Collider2D collision)
+    public void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.CompareTag("Tile"))
         {
             currentOnTile = collision.gameObject.GetComponent<Tile>();
+            if (collision.gameObject.GetComponent<Tile>().tileState.Equals(state.Target))
+            {
+                // deal damage and destroy self
+            }
         }
     }
 }

@@ -10,7 +10,7 @@ public class EnemySpawner : MonoBehaviour
     public GameObject enemyPrefab;
     void Start()
     {
-        for (int i = 0; i < 25; i++)
+        for (int i = 0; i < 1; i++)
         {
             Vector2 EnemySpawnPoint = CircleSpawnFunction();
             Vector3 convert = new Vector3(EnemySpawnPoint.x, EnemySpawnPoint.y, 0);
