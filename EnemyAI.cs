@@ -24,10 +24,12 @@ public class EnemyAI : MonoBehaviour
         if (behaviour.Equals("getclose"))
         {
             GetClose();
+            behaviour = "standby";
         }
         else if (behaviour.Equals("firsttile"))
         {
             FirstTile();
+            behaviour = "standby";
         }
         else if (behaviour.Equals("tilepath")) // && this.transform.position == currentOnTile.transform.position
         {
@@ -37,19 +39,22 @@ public class EnemyAI : MonoBehaviour
     }
     private void FixedUpdate()
     {
+        // movement
         rb.velocity = new Vector2(direction.normalized.x * speed, direction.normalized.y * speed);
     }
     public void GetClose()
     {
+        // set direction to the target
         direction = new Vector2(targetPos.x - this.transform.position.x, targetPos.y - transform.position.y);
     }
     public void FirstTile()
     {
+        // find the closest tile, set direction to that tile.
         direction = new Vector2(0, 0);
         Tile[,] tilemap = GameObject.FindGameObjectWithTag("Tilemap").GetComponent<TilemapController>().TileArray;
         Tile closestTile = GameObject.FindGameObjectWithTag("Tilemap").GetComponent<Pathfinding>().core;
         float closestDist = 999;
-        foreach(Tile tile in tilemap)
+        foreach (Tile tile in tilemap)
         {
             float currentdist = Vector3.Distance(tile.transform.position, this.transform.position);
             if (currentdist < closestDist)
@@ -60,10 +65,6 @@ public class EnemyAI : MonoBehaviour
         }
         direction = new Vector2(closestTile.transform.position.x - this.transform.position.x, closestTile.transform.position.y - this.transform.position.y);
     }
-    public void distanceCheck()
-    {
-
-    }
     public void tilePathfinding()
     {
         // get value of current tile
@@ -71,9 +72,9 @@ public class EnemyAI : MonoBehaviour
         // check adjacent tiles
         bool[] possibleTiles = GameObject.FindGameObjectWithTag("Tilemap").GetComponent<Pathfinding>().possibleTileCheck(currentOnTile);
         float[] roadVals = new float[4];
-        for(int i = 0; i<4; i++)
+        for (int i = 0; i < 4; i++)
         {
-            if(possibleTiles[i] == true)
+            if (possibleTiles[i] == true)
             {
                 if (i == 0)
                 {
@@ -104,13 +105,13 @@ public class EnemyAI : MonoBehaviour
         foreach (float road in roadVals)
         {
             lowIndex += 1;
-            if(road < lowest)
+            if (road < lowest)
             {
                 lowest = road;
                 lowestPos = lowIndex;
             }
         }
-        
+
         if (lowestPos == 0)
         {
             // go up
