@@ -4,15 +4,19 @@ using UnityEngine;
 
 public class EnemyAI : MonoBehaviour
 {
-    public string behaviour;
+    // Fundamentals
+    public float maxHP;
+    public float hp;
+    public Rigidbody2D rb;
     public float speed;
+    // pathfinding
+    public string behaviour;
     Vector2 targetPos;
     Vector2 direction;
-    public Rigidbody2D rb;
-    //
     public Tile currentOnTile;
     void Start()
     {
+        maxHP = 100;
         behaviour = "getclose";
         Tile target = GameObject.FindGameObjectWithTag("Tilemap").GetComponent<Pathfinding>().core;
         targetPos = target.transform.position;
