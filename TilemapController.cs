@@ -8,6 +8,8 @@ public class TilemapController : MonoBehaviour
     public bool activePanel;
     public Tile[,] TileArray = new Tile[20,20];
     public Sprite[] allSprites;
+
+    public GameObject UnitRange;
     public void Start()
     {
         allSprites = new Sprite[9];
@@ -35,15 +37,23 @@ public class TilemapController : MonoBehaviour
         activePanelTile = null;
         activePanel = false;
     }
-    public void ChangeState(GameObject button)
+    public void ChangeState(GameObject button) // in game tile change
     {
+        // set tilestate
         activePanelTile.tileState = ReceiveState(button.name);
         activePanelTile.transform.gameObject.GetComponent<SpriteRenderer>().sprite = button.transform.GetComponent<Image>().sprite;
 
+        // Unit creation
+        if(activePanelTile.tileState.Equals(state.tower1) || activePanelTile.tileState.Equals(state.tower2))
+        {
+            CreateUnit(activePanelTile);
+        }
+
+        // panel close
         PanelDeactivate(button.transform.parent.gameObject);
         this.gameObject.GetComponent<Pathfinding>().pathfindValueSet();
     }
-    public void ChangeState(Tile tile,state Tilestate, Sprite StateSprite)
+    public void ChangeState(Tile tile,state Tilestate, Sprite StateSprite) // Start tile setting
     {
         tile.tileState = Tilestate;
         tile.gameObject.GetComponent<SpriteRenderer>().sprite = StateSprite;
@@ -120,4 +130,8 @@ public class TilemapController : MonoBehaviour
         }
     }
 
+    public void CreateUnit(Tile unitTile)
+    {
+        Instantiate(UnitRange, unitTile.gameObject.transform);
+    }
 }
