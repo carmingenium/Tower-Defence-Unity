@@ -132,6 +132,7 @@ public class TilemapController : MonoBehaviour
 
     public void CreateUnit(Tile unitTile)
     {
+        unitTile.gameObject.AddComponent<UnitAction>();
         Instantiate(UnitRange, unitTile.gameObject.transform);
     }
 }
