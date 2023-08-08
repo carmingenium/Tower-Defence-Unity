@@ -48,6 +48,19 @@ public class Tile : MonoBehaviour
                     panelEmpty.SetActive(true);
                     transform.root.GetComponent<TilemapController>().activePanel = true;
                 }
+                // make the tile platform
+                tileState = state.Platformed;
+                // corner check
+                if (!transform.root.GetComponent<Pathfinding>().cornerCheck())
+                {
+                    // if false, remove the platform and give error.
+                    tileState = state.Empty;
+                    transform.root.GetComponent<TilemapController>().PanelDeactivate(panelEmpty);
+                    this.GetComponent<SpriteRenderer>().sprite = null;
+                }
+                
+
+
                 // Platform
                 break;
             case state.Platformed:

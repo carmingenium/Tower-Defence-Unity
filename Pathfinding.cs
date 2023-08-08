@@ -185,31 +185,121 @@ public class Pathfinding : MonoBehaviour
         corners[2] = tileMap[0, 19];
         corners[3] = tileMap[19, 19];
 
+
+        bool[,] checkArray = new bool[20, 20];
         bool[] cornerCheck = new bool[4];
         // for each corner check reachability to target tile
-        for(int i = 0; i<4; i++)
+        for(int cornerA = 0; cornerA<4; cornerA++)
         {
             // set up a loop that will check every tile.
 
 
             // start with picking a corner
-            corners[i];
+            int[] posCorner = corners[cornerA].getPos();
+            checkArray[posCorner[0], posCorner[1]] = true;
             // add corner to a list, confirming that it is checked
+            List<Tile> lastWave = new List<Tile>();
+            lastWave.Add(corners[cornerA]);
             // create another list
+            List<Tile> nextWave = new List<Tile>();
 
+            bool done = false;
             // start the loop
-            // check adjacents (for if they are empty) (if they exist) and meanwhile add adjacents to the new list.
-            // only add them if they are not in the "checked" list.
-            // if there are no target tiles in the list:
-            // put all the tiles in newlist to the checked list
-            // clear newlist
-            // repeat loop
-            // else if there are targets in the list, return true to the bool list
-            // also if newlist is empty this loop, finish the loop and return false.
-        }
-        // if any of them fail, return false
-        // if none of them fail, return true;
+            while (!done)
+            {
+                // check adjacents (for if they are empty tiles) (if they exist) and meanwhile add adjacents to the new list.
+                // check adjacents 
+                foreach (Tile tile in lastWave)
+                {
+                    // (if they exist)
+                    bool[] direction = possibleTileCheck(corners[cornerA]);
+                    for (int i = 0; i < 4; i++)
+                    {
+                        if (direction[i]) // 0 up, 1 down, 2 right, 3 left
+                                          // put surroundings in a list
+                        {
+                            if (i == 0)
+                            {
+                                if (!checkArray[tile.posx, tile.posy + 1] && (tileMap[tile.posx, tile.posy + 1].tileState.Equals(state.Empty) | tileMap[tile.posx, tile.posy + 1].tileState.Equals(state.Corrupted)))
+                                {
+                                    nextWave.Add(tileMap[tile.posx, tile.posy + 1]);
+                                    checkArray[tile.posx, tile.posy + 1] = true;
+                                }
+                                if(tileMap[tile.posx, tile.posy + 1].tileState.Equals(state.Target))
+                                {
+                                    done = true;
+                                    cornerCheck[cornerA] = true;
+                                }
+                            }
+                            else if (i == 1)
+                            {
+                                if (!checkArray[tile.posx, tile.posy - 1] && (tileMap[tile.posx, tile.posy - 1].tileState.Equals(state.Empty) | tileMap[tile.posx, tile.posy - 1].tileState.Equals(state.Corrupted)))
+                                {
+                                    nextWave.Add(tileMap[tile.posx, tile.posy - 1]);
+                                    checkArray[tile.posx, tile.posy - 1] = true;
+                                }
+                                if (tileMap[tile.posx, tile.posy - 1].tileState.Equals(state.Target))
+                                {
+                                    done = true;
+                                    cornerCheck[cornerA] = true;
+                                }
+                            }
+                            else if (i == 2)
+                            {
+                                if (!checkArray[tile.posx + 1, tile.posy] && (tileMap[tile.posx + 1, tile.posy].tileState.Equals(state.Empty) | tileMap[tile.posx + 1, tile.posy].tileState.Equals(state.Corrupted)))
+                                {
+                                    nextWave.Add(tileMap[tile.posx + 1, tile.posy]);
+                                    checkArray[tile.posx + 1, tile.posy] = true;
+                                }
+                                if (tileMap[tile.posx + 1, tile.posy].tileState.Equals(state.Target))
+                                {
+                                    done = true;
+                                    cornerCheck[cornerA] = true;
+                                }
+                            }
+                            else if (i == 3)
+                            {
+                                if (!checkArray[tile.posx - 1, tile.posy] && (tileMap[tile.posx - 1, tile.posy].tileState.Equals(state.Empty) | tileMap[tile.posx - 1, tile.posy].tileState.Equals(state.Corrupted)))
+                                {
+                                    nextWave.Add(tileMap[tile.posx - 1, tile.posy]);
+                                    checkArray[tile.posx - 1, tile.posy] = true;
+                                }
+                                if (tileMap[tile.posx - 1, tile.posy].tileState.Equals(state.Target))
+                                {
+                                    done = true;
+                                    cornerCheck[cornerA] = true;
+                                }
+                            }
+                        }
+                    }
+                }
 
+                // also if newlist is empty this loop, finish the loop and return false.
+                if (nextWave.Count.Equals(0))
+                {
+                    done = true;
+                    cornerCheck[cornerA] = false;
+                    return false;
+                }
+                // reset lastwave
+                lastWave.Clear();
+
+                // set nextwave to lastwave
+                foreach (Tile tile in nextWave)
+                {
+                    lastWave.Add(tile);
+                }
+                // reset nextwave
+                nextWave.Clear();
+            }
+            if (cornerCheck[0] && cornerCheck[1] && cornerCheck[2] && cornerCheck[3])
+            {
+                return true;
+            }
+        }
+
+
+        return false;
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
