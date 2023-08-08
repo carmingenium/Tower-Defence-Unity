@@ -17,6 +17,7 @@ public class EnemyAI : MonoBehaviour
     void Start()
     {
         maxHP = 100;
+        hp = maxHP;
         behaviour = "getclose";
         Tile target = GameObject.FindGameObjectWithTag("Tilemap").GetComponent<Pathfinding>().core;
         targetPos = target.transform.position;
@@ -24,6 +25,10 @@ public class EnemyAI : MonoBehaviour
 
     void Update()
     {
+        if(hp <= 0)
+        {
+            Destroy(this.gameObject);
+        }
         // get closer to target
         if (behaviour.Equals("getclose"))
         {
@@ -144,5 +149,10 @@ public class EnemyAI : MonoBehaviour
             direction = new Vector2(newTargetTilePos.x - this.transform.position.x, newTargetTilePos.y - this.transform.position.y);
             //direction = Vector2.left;
         }
+    }
+
+    public void takeDamage(float dmg)
+    {
+        this.hp -= dmg;
     }
 }

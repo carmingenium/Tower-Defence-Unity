@@ -57,6 +57,10 @@ public class TilemapController : MonoBehaviour
     {
         tile.tileState = Tilestate;
         tile.gameObject.GetComponent<SpriteRenderer>().sprite = StateSprite;
+        if (Tilestate.Equals(state.Target))
+        {
+            tile.gameObject.AddComponent<TargetTile>();
+        }
     }
     public state ReceiveState(string stateString)
     {
