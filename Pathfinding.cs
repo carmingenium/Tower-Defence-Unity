@@ -198,13 +198,14 @@ public class Pathfinding : MonoBehaviour
             // create another list
 
             // start the loop
-            // check adjacents (if they exist) and meanwhile add adjacents to the new list.
+            // check adjacents (for if they are empty) (if they exist) and meanwhile add adjacents to the new list.
             // only add them if they are not in the "checked" list.
             // if there are no target tiles in the list:
             // put all the tiles in newlist to the checked list
             // clear newlist
             // repeat loop
             // else if there are targets in the list, return true to the bool list
+            // also if newlist is empty this loop, finish the loop and return false.
         }
         // if any of them fail, return false
         // if none of them fail, return true;
