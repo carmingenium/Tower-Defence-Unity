@@ -107,8 +107,26 @@ public class TilemapController : MonoBehaviour
         ChangeState(TileArray[TargetX - 1, TargetY - 1], state.Corrupted, allSprites[8]);
         ChangeState(TileArray[TargetX, TargetY - 1], state.Corrupted, allSprites[8]);
         ChangeState(TileArray[TargetX, TargetY + 1], state.Corrupted, allSprites[8]);
+        // borders corrupting
+        for (int i = 0; i < 20; i++)
+        {
+            ChangeState(TileArray[0, i], state.Corrupted, allSprites[8]);
+        }
+        for (int i = 0; i < 20; i++)
+        {
+            ChangeState(TileArray[i,0], state.Corrupted, allSprites[8]);
+        }
+        for (int i = 0; i < 20; i++)
+        {
+            ChangeState(TileArray[19, i], state.Corrupted, allSprites[8]);
+        }
+        for (int i = 0; i < 20; i++)
+        {
+            ChangeState(TileArray[i, 19], state.Corrupted, allSprites[8]);
+        }
+
         // Gold Gen (2 for now)
-        for(int i = 0; i < 2; i++)
+        for (int i = 0; i < 2; i++)
         {
             int GoldX = -1;
             int GoldY = -1;

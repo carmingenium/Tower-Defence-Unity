@@ -176,6 +176,40 @@ public class Pathfinding : MonoBehaviour
         return directions;
     }
 
+    public bool cornerCheck()
+    {
+        // get 4 corners
+        Tile[] corners = new Tile[4];
+        corners[0] = tileMap[0, 0];
+        corners[1] = tileMap[19, 0];
+        corners[2] = tileMap[0, 19];
+        corners[3] = tileMap[19, 19];
+
+        bool[] cornerCheck = new bool[4];
+        // for each corner check reachability to target tile
+        for(int i = 0; i<4; i++)
+        {
+            // set up a loop that will check every tile.
+
+
+            // start with picking a corner
+            corners[i];
+            // add corner to a list, confirming that it is checked
+            // create another list
+
+            // start the loop
+            // check adjacents (if they exist) and meanwhile add adjacents to the new list.
+            // only add them if they are not in the "checked" list.
+            // if there are no target tiles in the list:
+            // put all the tiles in newlist to the checked list
+            // clear newlist
+            // repeat loop
+            // else if there are targets in the list, return true to the bool list
+        }
+        // if any of them fail, return false
+        // if none of them fail, return true;
+
+    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.transform.CompareTag("Enemy"))

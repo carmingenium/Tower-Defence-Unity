@@ -144,10 +144,6 @@ public class Tile : MonoBehaviour
         }
         
     }
-    public void OnCollisionEnter2D(Collision2D collision)
-    {
-        // only for target / core tile, to take damage.
-    }
 }
 public enum state
 {
