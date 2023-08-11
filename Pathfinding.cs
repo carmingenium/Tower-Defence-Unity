@@ -212,7 +212,7 @@ public class Pathfinding : MonoBehaviour
                 foreach (Tile tile in lastWave)
                 {
                     // (if they exist)
-                    bool[] direction = possibleTileCheck(corners[cornerA]);
+                    bool[] direction = possibleTileCheck(tile);
                     for (int i = 0; i < 4; i++)
                     {
                         if (direction[i]) // 0 up, 1 down, 2 right, 3 left
@@ -275,11 +275,16 @@ public class Pathfinding : MonoBehaviour
                 }
 
                 // also if newlist is empty this loop, finish the loop and return false.
-                if (nextWave.Count.Equals(0))
+                if (nextWave.Count == 0 )
                 {
-                    done = true;
-                    cornerCheck[cornerA] = false;
-                    return false;
+                    bool chk = cornerCheck[cornerA];
+                    if (!chk)
+                    {
+                        done = true;
+                        cornerCheck[cornerA] = false;
+                        return false;
+                    }
+                    
                 }
                 // reset lastwave
                 lastWave.Clear();
