@@ -15,6 +15,8 @@ public class MouseInput : MonoBehaviour
     }
     private void OnMouseUp()
     {
+        // there is a bug that sometimes this doesnt trigger correctly
+        // I think I wont be able to fix this as it seems like a problem about unity's input system and I dont want to do extra work for a prototype
         thisTile.PanelOpen();
     }
 }
