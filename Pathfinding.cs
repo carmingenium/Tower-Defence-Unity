@@ -277,16 +277,14 @@ public class Pathfinding : MonoBehaviour
                 }
 
                 // also if newlist is empty this loop, finish the loop and return false.
-                if (nextWave.Count == 0)    // Two things I dont understand. Now on the last bool check, it cant find the target even though it should be for some reason
-                                            // secondly, debug points are hit only on the 3rd and 4th for loops? why?
+                if (nextWave.Count == 0)
                 {
                     done = true;
-                    bool chk = cornerCheck[cornerA];
-                    if (!chk)
+                    bool cornerVal = cornerCheck[cornerA];
+                    if (!cornerVal)
                     {
                         return false;
                     }
-                    
                 }
                 // reset lastwave
                 lastWave.Clear();
