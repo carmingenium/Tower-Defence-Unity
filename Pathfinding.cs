@@ -186,13 +186,15 @@ public class Pathfinding : MonoBehaviour
         corners[3] = tileMap[19, 19];
 
 
-        bool[,] checkArray = new bool[20, 20];
+        
         bool[] cornerCheck = new bool[4];
         // for each corner check reachability to target tile
         for(int cornerA = 0; cornerA<4; cornerA++)
         {
-            // set up a loop that will check every tile.
 
+            // set up a loop that will check every tile.
+            // resetting every tile
+            bool[,] checkArray = new bool[20, 20];
 
             // start with picking a corner
             int[] posCorner = corners[cornerA].getPos();
@@ -282,7 +284,6 @@ public class Pathfinding : MonoBehaviour
                     bool chk = cornerCheck[cornerA];
                     if (!chk)
                     {
-                        cornerCheck[cornerA] = false;
                         return false;
                     }
                     
