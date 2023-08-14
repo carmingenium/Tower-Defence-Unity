@@ -28,7 +28,7 @@ public class Pathfinding : MonoBehaviour
 
     public void pathfindValueSet()
     {
-        bool[,] checkArray = new bool[20, 20];
+        bool[,] checkArray = new bool[52, 52];
         int[] corePos = core.getPos();
         bool done = false;
 
@@ -148,22 +148,22 @@ public class Pathfinding : MonoBehaviour
         int[] pos = checktile.getPos();
         bool up = false, down = false, right = false, left = false;
         // up check
-        if (pos[1]+1 < 20 && pos[1] + 1 >= 0)
+        if (pos[1]+1 < 52 && pos[1] + 1 >= 0)
         {
             up = true;
         }        
         // down check
-        if (pos[1] - 1 < 20 && pos[1] - 1 >= 0)
+        if (pos[1] - 1 < 52 && pos[1] - 1 >= 0)
         {
             down = true;
         }        
         // right check
-        if (pos[0] + 1 < 20 && pos[0] + 1 >= 0)
+        if (pos[0] + 1 < 52 && pos[0] + 1 >= 0)
         {
             right = true;
         }        
         // left check
-        if (pos[0] - 1 < 20 && pos[0] - 1 >= 0)
+        if (pos[0] - 1 < 52 && pos[0] - 1 >= 0)
         {
             left = true;
         }
@@ -181,9 +181,9 @@ public class Pathfinding : MonoBehaviour
         // get 4 corners
         Tile[] corners = new Tile[4];
         corners[0] = tileMap[0, 0];
-        corners[1] = tileMap[19, 0];
-        corners[2] = tileMap[0, 19];
-        corners[3] = tileMap[19, 19];
+        corners[1] = tileMap[51, 0];
+        corners[2] = tileMap[0, 51];
+        corners[3] = tileMap[51, 51];
 
 
         
@@ -194,7 +194,7 @@ public class Pathfinding : MonoBehaviour
 
             // set up a loop that will check every tile.
             // resetting every tile
-            bool[,] checkArray = new bool[20, 20];
+            bool[,] checkArray = new bool[52, 52];
 
             // start with picking a corner
             int[] posCorner = corners[cornerA].getPos();

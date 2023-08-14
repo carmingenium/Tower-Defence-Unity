@@ -6,7 +6,7 @@ public class TilemapController : MonoBehaviour
 {
     public Tile activePanelTile;
     public bool activePanel;
-    public Tile[,] TileArray = new Tile[20,20];
+    public Tile[,] TileArray = new Tile[52,52];
     public Sprite[] allSprites;
 
     public GameObject UnitRange;
@@ -88,17 +88,17 @@ public class TilemapController : MonoBehaviour
     public void MapGen()
     {
         // TARGET GEN //
-        int TargetX = Random.Range(7, 13);
-        int TargetY = Random.Range(7, 13);
+        int TargetX = Random.Range(20, 30);
+        int TargetY = Random.Range(20, 30);
         // find target sprite //
-        Sprite targetSprite = allSprites[7]; // targetsprite location = 4
+        Sprite targetSprite = allSprites[7]; // targetsprite location = 7
         ChangeState(TileArray[TargetX, TargetY], state.Target, targetSprite);
         // changing targets collider, so that it can take damage
         TileArray[TargetX, TargetY].gameObject.GetComponent<Collider2D>().isTrigger = false;
         // adding target to the genList, so that it wont be used again in gen.
 
 
-        // Corruption Gen
+        // Corruption Gen (location 8)
         ChangeState(TileArray[TargetX + 1, TargetY], state.Corrupted, allSprites[8]);
         ChangeState(TileArray[TargetX - 1, TargetY], state.Corrupted, allSprites[8]);
         ChangeState(TileArray[TargetX + 1, TargetY + 1], state.Corrupted, allSprites[8]);
@@ -107,23 +107,7 @@ public class TilemapController : MonoBehaviour
         ChangeState(TileArray[TargetX - 1, TargetY - 1], state.Corrupted, allSprites[8]);
         ChangeState(TileArray[TargetX, TargetY - 1], state.Corrupted, allSprites[8]);
         ChangeState(TileArray[TargetX, TargetY + 1], state.Corrupted, allSprites[8]);
-        // borders corrupting
-        for (int i = 0; i < 20; i++)
-        {
-            ChangeState(TileArray[0, i], state.Corrupted, allSprites[8]);
-        }
-        for (int i = 0; i < 20; i++)
-        {
-            ChangeState(TileArray[i,0], state.Corrupted, allSprites[8]);
-        }
-        for (int i = 0; i < 20; i++)
-        {
-            ChangeState(TileArray[19, i], state.Corrupted, allSprites[8]);
-        }
-        for (int i = 0; i < 20; i++)
-        {
-            ChangeState(TileArray[i, 19], state.Corrupted, allSprites[8]);
-        }
+        // borders start corrupted from now on
 
         // Gold Gen (2 for now)
         for (int i = 0; i < 2; i++)
@@ -132,8 +116,8 @@ public class TilemapController : MonoBehaviour
             int GoldY = -1;
             do
             {
-                GoldX = Random.Range(2, 18);
-                GoldY = Random.Range(2, 18);
+                GoldX = Random.Range(15, 35);
+                GoldY = Random.Range(15, 35);
             } while (TileArray[GoldX, GoldY].tileState != state.Empty);
             ChangeState(TileArray[GoldX, GoldY], state.Resource, allSprites[5]);
         }
@@ -145,8 +129,8 @@ public class TilemapController : MonoBehaviour
             int BldY = -1;
             do
             {
-                BldX = Random.Range(2, 18);
-                BldY = Random.Range(2, 18);
+                BldX = Random.Range(15, 35);
+                BldY = Random.Range(15, 35);
             } while (TileArray[BldX, BldY].tileState != state.Empty);
             ChangeState(TileArray[BldX, BldY], state.Boulder, allSprites[4]);
         }

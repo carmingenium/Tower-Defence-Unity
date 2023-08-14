@@ -17,12 +17,6 @@ public class EnemySpawner : MonoBehaviour
             Instantiate(enemyPrefab, convert, Quaternion.identity);
         }
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
     public Vector2 CircleSpawnFunction()
     {
         int angle = UnityEngine.Random.Range(0, 360);
