@@ -54,9 +54,10 @@ public class Tile : MonoBehaviour
                 if (!transform.root.GetComponent<Pathfinding>().cornerCheck())
                 {
                     // if false, remove the platform and give error.
+                    this.transform.GetComponent<Animator>().SetTrigger("error");
                     tileState = state.Empty;
                     transform.root.GetComponent<TilemapController>().PanelDeactivate(panelEmpty);
-                    this.GetComponent<SpriteRenderer>().sprite = null;
+                    //this.GetComponent<SpriteRenderer>().sprite = null;
                 }
                 
 
