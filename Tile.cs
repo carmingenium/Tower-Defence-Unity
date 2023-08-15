@@ -40,7 +40,10 @@ public class Tile : MonoBehaviour
                 foreach (GameObject go in Resources.FindObjectsOfTypeAll(typeof(GameObject)) as GameObject[])
                 {
                     if (go.name.Equals("Empty - Panel"))
+                    {
                         panelEmpty = go;
+                        break;
+                    }
                 }
                 if (!this.transform.root.GetComponent<TilemapController>().activePanel)
                 {
@@ -59,7 +62,8 @@ public class Tile : MonoBehaviour
                     transform.root.GetComponent<TilemapController>().PanelDeactivate(panelEmpty);
                     //this.GetComponent<SpriteRenderer>().sprite = null;
                 }
-                
+                tileState = state.Empty;
+
 
 
                 // Platform
