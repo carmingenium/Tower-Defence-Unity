@@ -1,0 +1,34 @@
+{
+    "name": "Selecting",
+    "maps": [
+        {
+            "name": "Camera",
+            "id": "3dffa0c3-1edb-43be-803c-3ce2d122e4a2",
+            "actions": [
+                {
+                    "name": "Select",
+                    "type": "Button",
+                    "id": "d03134dd-f801-45dd-bdc8-5ea86986bfb1",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "78070f5e-3ce7-4ecb-adb4-c61fe1b4bcf5",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Select",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
