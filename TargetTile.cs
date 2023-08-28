@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TargetTile : MonoBehaviour
 {
-    float maxHP = 10;
+    public float maxHP = 10;
     public float hp;
     public void Start()
     {
