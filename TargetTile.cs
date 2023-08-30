@@ -6,6 +6,7 @@ public class TargetTile : MonoBehaviour
 {
     public float maxHP = 10;
     public float hp;
+    public GameObject loseScreen;
     public void Start()
     {
         hp = maxHP;
@@ -22,7 +23,8 @@ public class TargetTile : MonoBehaviour
     {
         if(hp <= 0)
         {
-            this.gameObject.GetComponent<SpriteRenderer>().sprite = null;
+            Time.timeScale = 0;
+            loseScreen.SetActive(true);
         }
     }
 }

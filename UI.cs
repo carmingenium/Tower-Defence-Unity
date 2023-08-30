@@ -11,6 +11,7 @@ public class UI : MonoBehaviour
     public void MainMenu()
     {
         SceneManager.LoadScene("Main Menu");
+        Time.timeScale = 1;
     }
     public void Play()
     {
