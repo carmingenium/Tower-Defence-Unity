@@ -8,6 +8,7 @@ public class EnemySpawner : MonoBehaviour
 
     public int r;
     public GameObject enemyPrefab;
+    public GameObject loseScreen;
     void Start()
     {
         for (int i = 0; i < 25; i++)

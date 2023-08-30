@@ -6,10 +6,11 @@ public class TargetTile : MonoBehaviour
 {
     public float maxHP = 10;
     public float hp;
-    public GameObject loseScreen;
+    GameObject loseScreen;
     public void Start()
     {
         hp = maxHP;
+        loseScreen = GameObject.Find("EnemySpawner").GetComponent<EnemySpawner>().loseScreen;
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
