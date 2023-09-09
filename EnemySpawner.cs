@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.IO;
 
 public class EnemySpawner : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class EnemySpawner : MonoBehaviour
     // Tier 3 Enemies: 9 - 11
     public List<GameObject> chosenEnemies;
     public int Wave;
+    string wave;
     // ------------------------------------
 
     public GameObject loseScreen;
@@ -20,16 +22,12 @@ public class EnemySpawner : MonoBehaviour
 
     void Start()
     {
-        WaveSpawner();
+        BeginSpawner();
+        wave = File.ReadAllText(Application.streamingAssetsPath + "/Waves.txt");
     }
     private void Update()
-    {
-        // check file, if there is a change, register it
-        // if(change){
-        // Tier 1-2-3 which
-        // Random int = 0-4 or 5-8 or 9-11
-        // chosenEnemies.Add(enemyprefab[int])
-        // }
+    { 
+        
     }
     public Vector2 CircleSpawnFunction()
     {
@@ -41,7 +39,7 @@ public class EnemySpawner : MonoBehaviour
         Vector2 SpawnPoint = new Vector2((float)xlen, (float)ylen);
         return SpawnPoint;
     }
-    public void WaveSpawner()
+    public void BeginSpawner()
     {
         // find the right enemies from the wave value
         bool wave_continue= true;
@@ -56,5 +54,19 @@ public class EnemySpawner : MonoBehaviour
             }
             wave_continue = false;
         }
+    }
+
+    public void Spawner()
+    {
+        // Random int = 0-4 or 5-8 or 9-11
+
+        // read wave.txt
+        // if( first 3 are new)
+        // add a random new enemy of that tier , add to chosenenemies
+        // remove "new" part
+        // foreach enemy in chosenenemies
+        // if( "(") read through the (xTy):Z, summon Yth tier of xth enemy Z times
+        // remove that part from the line
+        // repeat loop
     }
 }
