@@ -12,8 +12,9 @@ public class EnemySpawner : MonoBehaviour
     // Tier 1 Enemies: 0 - 4
     // Tier 2 Enemies: 5 - 8
     // Tier 3 Enemies: 9 - 11
+    public List<int> chosenEnemyIndex;
     public List<GameObject> chosenEnemies;
-    public int Wave;
+    public int WaveNumber;
     string wave;
     // ------------------------------------
 
@@ -24,6 +25,8 @@ public class EnemySpawner : MonoBehaviour
     {
         BeginSpawner();
         wave = File.ReadAllText(Application.streamingAssetsPath + "/Waves.txt");
+        wave = wave.Replace("\r\n", "_");
+        WaveReader();
     }
     private void Update()
     { 
@@ -56,11 +59,35 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
-    public void Spawner()
+    public void WaveReader()
     {
         // Random int = 0-4 or 5-8 or 9-11
 
         // read wave.txt
+        char[] waveLine; // char array of the line
+
+        int charAmount = 0; // to count amount of chars in one line
+        char next = wave[charAmount]; // counting array by array
+        
+
+        while(next != '_') // while next character is not the end of line char
+        {
+            charAmount += 1; 
+            next = wave[charAmount]; // go to the next char
+        }
+        charAmount += 1; // to include end of line character.
+
+        waveLine = new char[charAmount]; // current line array
+
+        for(int i = 0; i<charAmount; i++) // for every character, assign the right characters to the current line array from string
+        {                                 // also remove this line completely from the string for the next wave to be more readable. 
+            waveLine[i] = wave[0];
+            wave = wave.Remove(0,1);
+        }
+
+
+        Spawner(waveLine);
+
         // if( first 3 are new)
         // add a random new enemy of that tier , add to chosenenemies
         // remove "new" part
@@ -68,5 +95,56 @@ public class EnemySpawner : MonoBehaviour
         // if( "(") read through the (xTy):Z, summon Yth tier of xth enemy Z times
         // remove that part from the line
         // repeat loop
+    }
+    public void Spawner(char[] currentLine)
+    {
+        int numberOfEnemies = 1;
+        foreach(char cr in currentLine)
+        {
+            if (cr.Equals(',')) numberOfEnemies += 1;
+        }
+
+        // if new enemy
+        if(currentLine[0] == 'n')
+        {
+            if (currentLine[5] == '1')
+            {
+                int enemy = 0;
+                do
+                {
+                    enemy = UnityEngine.Random.Range(1,5);
+                } while (chosenEnemyIndex.Contains(enemy));
+            }
+            if (currentLine[5] == '2')
+            {
+                int enemy = 0;
+                do
+                {
+                    enemy = UnityEngine.Random.Range(5, 9);
+                } while (chosenEnemyIndex.Contains(enemy));
+            }
+            if (currentLine[5] == '3')
+            {
+                int enemy = 0;
+                do
+                {
+                    enemy = UnityEngine.Random.Range(9, 12);
+                } while (chosenEnemyIndex.Contains(enemy));
+            }
+        }
+        else // only enemy summoning
+        {
+            // for the amount of enemy types
+            for(int i = 0; numberOfEnemies>i; i++)
+            {
+                char point = ' ';
+                int charIndex = 0;
+                while(point != ':')
+                {
+                    charIndex += 1;
+                    point = currentLine[charIndex]; 
+                }
+            }
+        }
     }
 }
