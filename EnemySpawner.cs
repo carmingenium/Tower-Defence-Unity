@@ -98,16 +98,16 @@ public class EnemySpawner : MonoBehaviour
     }
     public void Spawner(char[] currentLine)
     {
-        int numberOfEnemies = 1;
+        int numberOfEnemies = 0;
         foreach(char cr in currentLine)
         {
-            if (cr.Equals(',')) numberOfEnemies += 1;
+            if (cr.Equals('.')) numberOfEnemies += 1;
         }
 
         // if new enemy
         if(currentLine[0] == 'n')
         {
-            if (currentLine[5] == '1')
+            if (currentLine[5] == '1')  // Tier1
             {
                 int enemy = 0;
                 do
@@ -115,7 +115,7 @@ public class EnemySpawner : MonoBehaviour
                     enemy = UnityEngine.Random.Range(1,5);
                 } while (chosenEnemyIndex.Contains(enemy));
             }
-            if (currentLine[5] == '2')
+            if (currentLine[5] == '2')  // Tier2
             {
                 int enemy = 0;
                 do
@@ -123,7 +123,7 @@ public class EnemySpawner : MonoBehaviour
                     enemy = UnityEngine.Random.Range(5, 9);
                 } while (chosenEnemyIndex.Contains(enemy));
             }
-            if (currentLine[5] == '3')
+            if (currentLine[5] == '3')  // Tier3
             {
                 int enemy = 0;
                 do
@@ -144,6 +144,39 @@ public class EnemySpawner : MonoBehaviour
                     charIndex += 1;
                     point = currentLine[charIndex]; 
                 }
+
+                string str = new string(currentLine);
+                str = str.Remove(charIndex, 1);
+                currentLine = str.ToCharArray();
+
+                point = currentLine[charIndex];
+
+                List<int> integerNumbers = new List<int>();
+                while(!(point == '.' || point == '_'))
+                {
+                    integerNumbers.Add(point - '0');
+
+                    charIndex += 1;
+                    point = currentLine[charIndex];
+                }
+
+                // summon amount calculation
+                int summonAmount = 0;
+
+                if (integerNumbers.Count < 2)
+                {
+                    int number = integerNumbers[0];
+                    summonAmount += number;
+                }
+                else
+                {
+                    int number = integerNumbers[0];
+                    summonAmount += number * 10;
+                    number = integerNumbers[1];
+                    summonAmount += number;
+                }
+
+                // 
             }
         }
     }
