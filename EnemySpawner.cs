@@ -107,9 +107,9 @@ public class EnemySpawner : MonoBehaviour
         // if new enemy
         if(currentLine[0] == 'n')
         {
+            int enemy = 0;
             if (currentLine[5] == '1')  // Tier1
             {
-                int enemy = 0;
                 do
                 {
                     enemy = UnityEngine.Random.Range(1,5);
@@ -117,7 +117,6 @@ public class EnemySpawner : MonoBehaviour
             }
             if (currentLine[5] == '2')  // Tier2
             {
-                int enemy = 0;
                 do
                 {
                     enemy = UnityEngine.Random.Range(5, 9);
@@ -125,12 +124,16 @@ public class EnemySpawner : MonoBehaviour
             }
             if (currentLine[5] == '3')  // Tier3
             {
-                int enemy = 0;
                 do
                 {
                     enemy = UnityEngine.Random.Range(9, 12);
                 } while (chosenEnemyIndex.Contains(enemy));
             }
+            // after new enemy has been selected
+            chosenEnemyIndex.Add(enemy);            // add enemy to chosen enemies
+            chosenEnemies.Add(enemyPrefab[enemy]);  // add enemy to chosen enemies
+            // these enemies will not be spawned this turn and this is intentional.
+
         }
         else // only enemy summoning
         {
@@ -176,7 +179,7 @@ public class EnemySpawner : MonoBehaviour
                     summonAmount += number;
                 }
 
-                // 
+                // summon 
             }
         }
     }
