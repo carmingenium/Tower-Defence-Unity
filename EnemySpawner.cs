@@ -148,6 +148,18 @@ public class EnemySpawner : MonoBehaviour
                     point = currentLine[charIndex]; 
                 }
 
+                // Tier 1 Enemies: 0 - 4
+                // Tier 2 Enemies: 5 - 8
+                // Tier 3 Enemies: 9 - 11
+
+                // at this point: charindex - 2 = tier level /// charindex -4 order of that tier
+                // 
+                int tierLevel = currentLine[charIndex - 2];
+                int tierOrder = currentLine[charIndex - 4];
+
+                switch ()
+
+
                 string str = new string(currentLine);
                 str = str.Remove(charIndex, 1);
                 currentLine = str.ToCharArray();
