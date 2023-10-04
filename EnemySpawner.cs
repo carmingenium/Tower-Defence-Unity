@@ -157,7 +157,35 @@ public class EnemySpawner : MonoBehaviour
                 int tierLevel = currentLine[charIndex - 2];
                 int tierOrder = currentLine[charIndex - 4];
 
-                switch ()
+                switch (tierLevel)
+                {
+                    case 1: //tier1
+                        if (tierOrder == 1)
+                        {
+                            
+                        }
+                        if (tierOrder == 2)
+                        {
+
+                        }
+                        if (tierOrder == 3)
+                        {
+
+                        }
+                        if (tierOrder == 4)
+                        {
+
+                        }
+                        if (tierOrder == 5)
+                        {
+
+                        }
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        break;
+                }
 
 
                 string str = new string(currentLine);
