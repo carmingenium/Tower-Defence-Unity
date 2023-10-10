@@ -12,7 +12,7 @@ public class EnemySpawner : MonoBehaviour
     // Tier 1 Enemies: 0 - 4
     // Tier 2 Enemies: 5 - 8
     // Tier 3 Enemies: 9 - 11
-    public List<int> chosenEnemyIndex;
+    public int[] chosenEnemyIndex = new int[12];
     public List<GameObject> chosenEnemies;
     public int WaveNumber;
     string wave;
@@ -130,7 +130,7 @@ public class EnemySpawner : MonoBehaviour
                 } while (chosenEnemyIndex.Contains(enemy));
             }
             // after new enemy has been selected
-            chosenEnemyIndex.Add(enemy);            // add enemy to chosen enemies
+            chosenEnemyIndex[enemy] = enemy         // add enemy to chosen enemies
             chosenEnemies.Add(enemyPrefab[enemy]);  // add enemy to chosen enemies
             // these enemies will not be spawned this turn and this is intentional.
 
@@ -156,34 +156,63 @@ public class EnemySpawner : MonoBehaviour
                 // 
                 int tierLevel = currentLine[charIndex - 2];
                 int tierOrder = currentLine[charIndex - 4];
+                GameObject enemyToSummon;
 
                 switch (tierLevel)
                 {
                     case 1: //tier1
-                        if (tierOrder == 1)
+                        if (tierOrder == 1) // 0
                         {
-                            
+                            enemyToSummon = enemyPrefab[0]
                         }
-                        if (tierOrder == 2)
+                        if (tierOrder == 2) // 1
                         {
-
+                            enemyToSummon = enemyPrefab[1]
                         }
-                        if (tierOrder == 3)
+                        if (tierOrder == 3) // 2
                         {
-
+                            enemyToSummon = enemyPrefab[2]
                         }
-                        if (tierOrder == 4)
+                        if (tierOrder == 4) // 3
                         {
-
+                            enemyToSummon = enemyPrefab[3]
                         }
-                        if (tierOrder == 5)
+                        if (tierOrder == 5) // 4
                         {
-
+                            enemyToSummon = enemyPrefab[4]
                         }
                         break;
                     case 2:
+                        if (tierOrder == 1) // 5
+                        {
+                            enemyToSummon = enemyPrefab[5]
+                        }
+                        if (tierOrder == 2) // 6
+                        {
+                            enemyToSummon = enemyPrefab[6]
+                        }
+                        if (tierOrder == 3) // 7
+                        {
+                            enemyToSummon = enemyPrefab[7]
+                        }
+                        if (tierOrder == 4) // 8
+                        {
+                            enemyToSummon = enemyPrefab[8]
+                        }
                         break;
                     case 3:
+                        if (tierOrder == 1) // 9
+                        {
+                            enemyToSummon = enemyPrefab[9]
+                        }
+                        if (tierOrder == 2) // 10
+                        {
+                            enemyToSummon = enemyPrefab[10]
+                        }
+                        if (tierOrder == 3) // 11
+                        {
+                            enemyToSummon = enemyPrefab[11]
+                        }
                         break;
                 }
 
@@ -219,7 +248,8 @@ public class EnemySpawner : MonoBehaviour
                     summonAmount += number;
                 }
 
-                // summon 
+                // summon
+                SummonEnemies(summonAmount,enemyToSummon); 
             }
         }
     }
