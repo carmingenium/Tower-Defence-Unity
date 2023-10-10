@@ -135,8 +135,9 @@ public class EnemySpawner : MonoBehaviour
             // these enemies will not be spawned this turn and this is intentional.
 
         }
-        else // only enemy summoning
+        else // only enemy summoning // !!! I THINK THIS ELSE SHOULDN'T BE HERE
         {
+            int totalSummon = 0;
             // for the amount of enemy types
             for(int i = 0; numberOfEnemies>i; i++)
             {
@@ -250,7 +251,16 @@ public class EnemySpawner : MonoBehaviour
 
                 // summon
                 SummonEnemies(summonAmount,enemyToSummon); 
+                totalSummon += summonAmount;
             }
         }
+    }
+    public void SummonEnemies(int summonAmount, GameObject enemy){
+        for(int i = 0; i<summonAmount; i++){
+            Vector2 EnemySpawnPoint = CircleSpawnFunction();
+            Vector3 convert = new Vector3(EnemySpawnPoint.x, EnemySpawnPoint.y, 0);
+            Instantiate(enemy, convert, Quaternion.identity);
+        }
+        
     }
 }
