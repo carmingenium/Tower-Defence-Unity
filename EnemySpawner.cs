@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using System.IO;
+using System.Linq;
 
 public class EnemySpawner : MonoBehaviour
 {
@@ -15,22 +16,25 @@ public class EnemySpawner : MonoBehaviour
     public int[] chosenEnemyIndex = new int[12];
     public List<GameObject> chosenEnemies;
     public int WaveNumber;
+    public int totalEnemyAmount = 0;
     string wave;
     // ------------------------------------
 
     public GameObject loseScreen;
+    public GameObject waveBarParent; // to reach both text and image
     
 
     void Start()
     {
-        BeginSpawner();
         wave = File.ReadAllText(Application.streamingAssetsPath + "/Waves.txt");
         wave = wave.Replace("\r\n", "_");
-        WaveReader();
     }
     private void Update()
     { 
-        
+        if(totalEnemyAmount == 0)
+        {
+            WaveReader();
+        }
     }
     public Vector2 CircleSpawnFunction()
     {
@@ -130,130 +134,129 @@ public class EnemySpawner : MonoBehaviour
                 } while (chosenEnemyIndex.Contains(enemy));
             }
             // after new enemy has been selected
-            chosenEnemyIndex[enemy] = enemy         // add enemy to chosen enemies
+            chosenEnemyIndex[enemy] = enemy;         // add enemy to chosen enemies
             chosenEnemies.Add(enemyPrefab[enemy]);  // add enemy to chosen enemies
             // these enemies will not be spawned this turn and this is intentional.
 
         }
-        else // only enemy summoning // !!! I THINK THIS ELSE SHOULDN'T BE HERE
+        
+        int totalEnemyAmount = 0;
+        // for the amount of enemy types
+        for(int i = 0; numberOfEnemies>i; i++)
         {
-            int totalSummon = 0;
-            // for the amount of enemy types
-            for(int i = 0; numberOfEnemies>i; i++)
+            char point = ' ';
+            int charIndex = 0;
+            while(point != ':')
             {
-                char point = ' ';
-                int charIndex = 0;
-                while(point != ':')
-                {
-                    charIndex += 1;
-                    point = currentLine[charIndex]; 
-                }
-
-                // Tier 1 Enemies: 0 - 4
-                // Tier 2 Enemies: 5 - 8
-                // Tier 3 Enemies: 9 - 11
-
-                // at this point: charindex - 2 = tier level /// charindex -4 order of that tier
-                // 
-                int tierLevel = currentLine[charIndex - 2];
-                int tierOrder = currentLine[charIndex - 4];
-                GameObject enemyToSummon;
-
-                switch (tierLevel)
-                {
-                    case 1: //tier1
-                        if (tierOrder == 1) // 0
-                        {
-                            enemyToSummon = enemyPrefab[0]
-                        }
-                        if (tierOrder == 2) // 1
-                        {
-                            enemyToSummon = enemyPrefab[1]
-                        }
-                        if (tierOrder == 3) // 2
-                        {
-                            enemyToSummon = enemyPrefab[2]
-                        }
-                        if (tierOrder == 4) // 3
-                        {
-                            enemyToSummon = enemyPrefab[3]
-                        }
-                        if (tierOrder == 5) // 4
-                        {
-                            enemyToSummon = enemyPrefab[4]
-                        }
-                        break;
-                    case 2:
-                        if (tierOrder == 1) // 5
-                        {
-                            enemyToSummon = enemyPrefab[5]
-                        }
-                        if (tierOrder == 2) // 6
-                        {
-                            enemyToSummon = enemyPrefab[6]
-                        }
-                        if (tierOrder == 3) // 7
-                        {
-                            enemyToSummon = enemyPrefab[7]
-                        }
-                        if (tierOrder == 4) // 8
-                        {
-                            enemyToSummon = enemyPrefab[8]
-                        }
-                        break;
-                    case 3:
-                        if (tierOrder == 1) // 9
-                        {
-                            enemyToSummon = enemyPrefab[9]
-                        }
-                        if (tierOrder == 2) // 10
-                        {
-                            enemyToSummon = enemyPrefab[10]
-                        }
-                        if (tierOrder == 3) // 11
-                        {
-                            enemyToSummon = enemyPrefab[11]
-                        }
-                        break;
-                }
-
-
-                string str = new string(currentLine);
-                str = str.Remove(charIndex, 1);
-                currentLine = str.ToCharArray();
-
-                point = currentLine[charIndex];
-
-                List<int> integerNumbers = new List<int>();
-                while(!(point == '.' || point == '_'))
-                {
-                    integerNumbers.Add(point - '0');
-
-                    charIndex += 1;
-                    point = currentLine[charIndex];
-                }
-
-                // summon amount calculation
-                int summonAmount = 0;
-
-                if (integerNumbers.Count < 2)
-                {
-                    int number = integerNumbers[0];
-                    summonAmount += number;
-                }
-                else
-                {
-                    int number = integerNumbers[0];
-                    summonAmount += number * 10;
-                    number = integerNumbers[1];
-                    summonAmount += number;
-                }
-
-                // summon
-                SummonEnemies(summonAmount,enemyToSummon); 
-                totalSummon += summonAmount;
+                charIndex += 1;
+                point = currentLine[charIndex]; 
             }
+
+            // Tier 1 Enemies: 0 - 4
+            // Tier 2 Enemies: 5 - 8
+            // Tier 3 Enemies: 9 - 11
+
+            // at this point: charindex - 2 = tier level /// charindex -4 order of that tier
+            // 
+            int tierLevel = currentLine[charIndex - 2];
+            int tierOrder = currentLine[charIndex - 4];
+            GameObject enemyToSummon = new GameObject();
+
+            switch (tierLevel)
+            {
+                case 1: //tier1
+                    if (tierOrder == 1) // 0
+                    {
+                        enemyToSummon = enemyPrefab[0];
+                    }
+                    if (tierOrder == 2) // 1
+                    {
+                        enemyToSummon = enemyPrefab[1];
+                    }
+                    if (tierOrder == 3) // 2
+                    {
+                        enemyToSummon = enemyPrefab[2];
+                    }
+                    if (tierOrder == 4) // 3
+                    {
+                        enemyToSummon = enemyPrefab[3];
+                    }
+                    if (tierOrder == 5) // 4
+                    {
+                        enemyToSummon = enemyPrefab[4];
+                    }
+                    break;
+                case 2:
+                    if (tierOrder == 1) // 5
+                    {
+                        enemyToSummon = enemyPrefab[5];
+                    }
+                    if (tierOrder == 2) // 6
+                    {
+                        enemyToSummon = enemyPrefab[6];
+                    }
+                    if (tierOrder == 3) // 7
+                    {
+                        enemyToSummon = enemyPrefab[7];
+                    }
+                    if (tierOrder == 4) // 8
+                    {
+                        enemyToSummon = enemyPrefab[8];
+                    }
+                    break;
+                case 3:
+                    if (tierOrder == 1) // 9
+                    {
+                        enemyToSummon = enemyPrefab[9];
+                    }
+                    if (tierOrder == 2) // 10
+                    {
+                        enemyToSummon = enemyPrefab[10];
+                    }
+                    if (tierOrder == 3) // 11
+                    {
+                        enemyToSummon = enemyPrefab[11];
+                    }
+                    break;
+            }
+
+
+            string str = new string(currentLine);
+            str = str.Remove(charIndex, 1);
+            currentLine = str.ToCharArray();
+
+            point = currentLine[charIndex];
+
+            List<int> integerNumbers = new List<int>();
+            while(!(point == '.' || point == '_'))
+            {
+                integerNumbers.Add(point - '0');
+
+                charIndex += 1;
+                point = currentLine[charIndex];
+            }
+
+            // summon amount calculation
+            int summonAmount = 0;
+
+            if (integerNumbers.Count < 2)
+            {
+                int number = integerNumbers[0];
+                summonAmount += number;
+            }
+            else
+            {
+                int number = integerNumbers[0];
+                summonAmount += number * 10;
+                number = integerNumbers[1];
+                summonAmount += number;
+            }
+
+            // summon
+            SummonEnemies(summonAmount, enemyToSummon); 
+            totalEnemyAmount += summonAmount;
         }
+        
     }
     public void SummonEnemies(int summonAmount, GameObject enemy){
         for(int i = 0; i<summonAmount; i++){
