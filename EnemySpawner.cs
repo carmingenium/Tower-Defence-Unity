@@ -4,6 +4,8 @@ using UnityEngine;
 using System;
 using System.IO;
 using System.Linq;
+using UnityEngine.UI;
+using TMPro;
 
 public class EnemySpawner : MonoBehaviour
 {
@@ -17,15 +19,18 @@ public class EnemySpawner : MonoBehaviour
     public List<GameObject> chosenEnemies;
     public int WaveNumber;
     public int totalEnemyAmount = 0;
+    public int waveEnemyAmount;
     string wave;
     // ------------------------------------
 
     public GameObject loseScreen;
-    public GameObject waveBarParent; // to reach both text and image
+    public GameObject waveBar;
+    public GameObject waveBarText;
     
 
     void Start()
     {
+        WaveNumber = 0;
         wave = File.ReadAllText(Application.streamingAssetsPath + "/Waves.txt");
         wave = wave.Replace("\r\n", "_");
     }
@@ -33,8 +38,11 @@ public class EnemySpawner : MonoBehaviour
     { 
         if(totalEnemyAmount == 0)
         {
+            WaveNumber += 1;
             WaveReader();
         }
+        waveBarText.GetComponent<TextMeshProUGUI>().text = "Wave Number = " + WaveNumber;
+        waveBar.GetComponent<Image>().fillAmount = totalEnemyAmount / waveEnemyAmount;
     }
     public Vector2 CircleSpawnFunction()
     {
@@ -255,6 +263,7 @@ public class EnemySpawner : MonoBehaviour
             // summon
             SummonEnemies(summonAmount, enemyToSummon); 
             totalEnemyAmount += summonAmount;
+            waveEnemyAmount = summonAmount;
         }
         
     }

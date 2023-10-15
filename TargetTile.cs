@@ -17,6 +17,7 @@ public class TargetTile : MonoBehaviour
         if (collision.gameObject.CompareTag("Enemy"))
         {
             hp -= 1;
+            GameObject.Find("EnemySpawner").GetComponent<EnemySpawner>().totalEnemyAmount -= 1;
             Destroy(collision.gameObject);
         }
     }
