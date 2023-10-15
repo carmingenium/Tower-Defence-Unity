@@ -133,14 +133,14 @@ public class EnemySpawner : MonoBehaviour
                     enemy = UnityEngine.Random.Range(9, 12);
                 } while (chosenEnemyIndex.Contains(enemy));
             }
-            // after new enemy has been selected
+            // after new enemy has been selected  // !!!! AN ERROR HERE - OUT OF BOUNDS - CAUSES ALWAYS FAST ONES TO BE ADDED.
             chosenEnemyIndex[enemy] = enemy;         // add enemy to chosen enemies
             chosenEnemies.Add(enemyPrefab[enemy]);  // add enemy to chosen enemies
             // these enemies will not be spawned this turn and this is intentional.
 
         }
         
-        int totalEnemyAmount = 0;
+        totalEnemyAmount = 0;
         // for the amount of enemy types
         for(int i = 0; numberOfEnemies>i; i++)
         {
@@ -158,8 +158,8 @@ public class EnemySpawner : MonoBehaviour
 
             // at this point: charindex - 2 = tier level /// charindex -4 order of that tier
             // 
-            int tierLevel = currentLine[charIndex - 2];
-            int tierOrder = currentLine[charIndex - 4];
+            int tierLevel = currentLine[charIndex - 2] - '0';
+            int tierOrder = currentLine[charIndex - 4] - '0';
             GameObject enemyToSummon = new GameObject();
 
             switch (tierLevel)
@@ -169,19 +169,19 @@ public class EnemySpawner : MonoBehaviour
                     {
                         enemyToSummon = enemyPrefab[0];
                     }
-                    if (tierOrder == 2) // 1
+                    else if (tierOrder == 2) // 1
                     {
                         enemyToSummon = enemyPrefab[1];
                     }
-                    if (tierOrder == 3) // 2
-                    {
+                    else if (tierOrder == 3) // 2
+                    { 
                         enemyToSummon = enemyPrefab[2];
                     }
-                    if (tierOrder == 4) // 3
+                    else if (tierOrder == 4) // 3
                     {
                         enemyToSummon = enemyPrefab[3];
                     }
-                    if (tierOrder == 5) // 4
+                    else if (tierOrder == 5) // 4
                     {
                         enemyToSummon = enemyPrefab[4];
                     }
@@ -191,15 +191,15 @@ public class EnemySpawner : MonoBehaviour
                     {
                         enemyToSummon = enemyPrefab[5];
                     }
-                    if (tierOrder == 2) // 6
+                    else if (tierOrder == 2) // 6
                     {
                         enemyToSummon = enemyPrefab[6];
                     }
-                    if (tierOrder == 3) // 7
+                    else if (tierOrder == 3) // 7
                     {
                         enemyToSummon = enemyPrefab[7];
                     }
-                    if (tierOrder == 4) // 8
+                    else if (tierOrder == 4) // 8
                     {
                         enemyToSummon = enemyPrefab[8];
                     }
@@ -209,11 +209,11 @@ public class EnemySpawner : MonoBehaviour
                     {
                         enemyToSummon = enemyPrefab[9];
                     }
-                    if (tierOrder == 2) // 10
+                    else if (tierOrder == 2) // 10
                     {
                         enemyToSummon = enemyPrefab[10];
                     }
-                    if (tierOrder == 3) // 11
+                    else if (tierOrder == 3) // 11
                     {
                         enemyToSummon = enemyPrefab[11];
                     }

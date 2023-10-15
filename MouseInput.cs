@@ -29,10 +29,10 @@ public class MouseInput : MonoBehaviour
 
     private void Release(InputAction.CallbackContext obj) // on click release
     {
-        Debug.Log(Input.mousePosition);
+        // Debug.Log(Input.mousePosition);
         Vector3 MousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         MousePos = new Vector3(MousePos.x, MousePos.y, MousePos.z + 2);
-        Debug.Log(MousePos);
+        // Debug.Log(MousePos);
 
         //Collider[] returnList = Physics.OverlapSphere(MousePos, 5f, 3);
         //if(returnList.Length != 1)

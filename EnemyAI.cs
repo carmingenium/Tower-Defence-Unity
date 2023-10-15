@@ -27,6 +27,7 @@ public class EnemyAI : MonoBehaviour
     {
         if(hp <= 0)
         {
+            GameObject.Find("EnemySpawner").GetComponent<EnemySpawner>().totalEnemyAmount -= 1;
             Destroy(this.gameObject);
         }
         // get closer to target
