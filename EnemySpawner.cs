@@ -176,55 +176,55 @@ public class EnemySpawner : MonoBehaviour
                 case 1: //tier1
                     if (tierOrder == 1) // 0
                     {
-                        enemyToSummon = enemyPrefab[0];
+                        enemyToSummon = chosenEnemies[0];
                     }
                     else if (tierOrder == 2) // 1
                     {
-                        enemyToSummon = enemyPrefab[1];
+                        enemyToSummon = chosenEnemies[1];
                     }
                     else if (tierOrder == 3) // 2
                     { 
-                        enemyToSummon = enemyPrefab[2];
+                        enemyToSummon = chosenEnemies[2];
                     }
                     else if (tierOrder == 4) // 3
                     {
-                        enemyToSummon = enemyPrefab[3];
+                        enemyToSummon = chosenEnemies[3];
                     }
                     else if (tierOrder == 5) // 4
                     {
-                        enemyToSummon = enemyPrefab[4];
+                        enemyToSummon = chosenEnemies[4];
                     }
                     break;
                 case 2:
                     if (tierOrder == 1) // 5
                     {
-                        enemyToSummon = enemyPrefab[5];
+                        enemyToSummon = chosenEnemies[5];
                     }
                     else if (tierOrder == 2) // 6
                     {
-                        enemyToSummon = enemyPrefab[6];
+                        enemyToSummon = chosenEnemies[6];
                     }
                     else if (tierOrder == 3) // 7
                     {
-                        enemyToSummon = enemyPrefab[7];
+                        enemyToSummon = chosenEnemies[7];
                     }
                     else if (tierOrder == 4) // 8
                     {
-                        enemyToSummon = enemyPrefab[8];
+                        enemyToSummon = chosenEnemies[8];
                     }
                     break;
                 case 3:
                     if (tierOrder == 1) // 9
                     {
-                        enemyToSummon = enemyPrefab[9];
+                        enemyToSummon = chosenEnemies[9];
                     }
                     else if (tierOrder == 2) // 10
                     {
-                        enemyToSummon = enemyPrefab[10];
+                        enemyToSummon = chosenEnemies[10];
                     }
                     else if (tierOrder == 3) // 11
                     {
-                        enemyToSummon = enemyPrefab[11];
+                        enemyToSummon = chosenEnemies[11];
                     }
                     break;
             }
