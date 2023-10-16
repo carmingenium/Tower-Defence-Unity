@@ -148,7 +148,7 @@ public class EnemySpawner : MonoBehaviour
             // these enemies will not be spawned this turn and this is intentional.
 
         }
-        
+        waveEnemyAmount = 0;
         totalEnemyAmount = 0;
         // for the amount of enemy types
         for(int i = 0; numberOfEnemies>i; i++)
@@ -264,7 +264,7 @@ public class EnemySpawner : MonoBehaviour
             // summon
             SummonEnemies(summonAmount, enemyToSummon); 
             totalEnemyAmount += summonAmount;
-            waveEnemyAmount = summonAmount;
+            waveEnemyAmount += summonAmount;
         }
         
     }
