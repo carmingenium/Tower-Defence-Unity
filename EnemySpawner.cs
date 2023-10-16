@@ -15,11 +15,11 @@ public class EnemySpawner : MonoBehaviour
     // Tier 1 Enemies: 0 - 4
     // Tier 2 Enemies: 5 - 8
     // Tier 3 Enemies: 9 - 11
-    public int[] chosenEnemyIndex = new int[12];
+    public int[] chosenEnemyIndex;
     public List<GameObject> chosenEnemies;
     public int WaveNumber;
-    public int totalEnemyAmount = 0;
-    public int waveEnemyAmount;
+    public float totalEnemyAmount = 0;
+    public float waveEnemyAmount;
     string wave;
     // ------------------------------------
 
@@ -30,6 +30,7 @@ public class EnemySpawner : MonoBehaviour
 
     void Start()
     {
+        chosenEnemyIndex = new int[12];
         WaveNumber = 0;
         wave = File.ReadAllText(Application.streamingAssetsPath + "/Waves.txt");
         wave = wave.Replace("\r\n", "_");
@@ -127,14 +128,14 @@ public class EnemySpawner : MonoBehaviour
                     enemy = UnityEngine.Random.Range(1,5);
                 } while (chosenEnemyIndex.Contains(enemy));
             }
-            if (currentLine[5] == '2')  // Tier2
+            else if (currentLine[5] == '2')  // Tier2
             {
                 do
                 {
                     enemy = UnityEngine.Random.Range(5, 9);
                 } while (chosenEnemyIndex.Contains(enemy));
             }
-            if (currentLine[5] == '3')  // Tier3
+            else if (currentLine[5] == '3')  // Tier3
             {
                 do
                 {
@@ -168,9 +169,9 @@ public class EnemySpawner : MonoBehaviour
             // 
             int tierLevel = currentLine[charIndex - 2] - '0';
             int tierOrder = currentLine[charIndex - 4] - '0';
-            GameObject enemyToSummon = new GameObject();
+            GameObject enemyToSummon = null;
 
-            switch (tierLevel)
+            switch (tierLevel) // BIG MISTAKE HERE, ORDER OF ENEMY AND THE INDEX OF ENEMY IS EQUALIZED, WHICH MEANS SECOND ENEMY IS ALWAYS FAST ONE;
             {
                 case 1: //tier1
                     if (tierOrder == 1) // 0
