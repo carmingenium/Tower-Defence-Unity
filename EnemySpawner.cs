@@ -26,6 +26,12 @@ public class EnemySpawner : MonoBehaviour
     public GameObject loseScreen;
     public GameObject waveBar;
     public GameObject waveBarText;
+
+    // ------------------------------------
+
+    bool newEnemy;
+    Text newEnemy_text;
+    bool lastwave;
     
 
     void Start()
@@ -44,6 +50,12 @@ public class EnemySpawner : MonoBehaviour
         }
         waveBarText.GetComponent<TextMeshProUGUI>().text = "Wave Number = " + WaveNumber;
         waveBar.GetComponent<Image>().fillAmount = totalEnemyAmount / waveEnemyAmount;
+
+
+        if (newEnemy) // implement crossfadealpha here for new enemies.
+        {
+            // newEnemy_text.CrossFadeAlpha
+        }
     }
     public Vector2 CircleSpawnFunction()
     {
@@ -98,6 +110,11 @@ public class EnemySpawner : MonoBehaviour
             wave = wave.Remove(0,1);
         }
 
+        if(wave[0] == 'l') // lastwave condition
+        {
+            // stop the next wave from spawning
+            // give alert of last wave.
+        }
 
         Spawner(waveLine);
 
@@ -146,7 +163,7 @@ public class EnemySpawner : MonoBehaviour
             chosenEnemyIndex[enemy] = enemy;         // add enemy to chosen enemies
             chosenEnemies.Add(enemyPrefab[enemy]);  // add enemy to chosen enemies
             // these enemies will not be spawned this turn and this is intentional.
-
+            NewEnemy();
         }
         waveEnemyAmount = 0;
         totalEnemyAmount = 0;
@@ -275,5 +292,11 @@ public class EnemySpawner : MonoBehaviour
             Instantiate(enemy, convert, Quaternion.identity);
         }
         
+    }
+
+    public void NewEnemy()
+    {
+        //newenemy = true;
+        //newEnemy_text.SetActive(true);
     }
 }
