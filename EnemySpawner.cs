@@ -27,12 +27,11 @@ public class EnemySpawner : MonoBehaviour
     public GameObject waveBar;
     public GameObject waveBarText;
 
-    // ------------------------------------
+    // ------------------------------------ 
 
-    bool newEnemy;
-    Text newEnemy_text;
-    bool lastwave;
-    
+    public TextMeshProUGUI newEnemy_text;
+    public TextMeshProUGUI lastWave_text;
+
 
     void Start()
     {
@@ -45,17 +44,14 @@ public class EnemySpawner : MonoBehaviour
     { 
         if(totalEnemyAmount == 0)
         {
-            WaveNumber += 1;
-            WaveReader();
+            if(WaveNumber <= 80)
+            {
+                WaveReader();
+                WaveNumber += 1;
+            }
         }
         waveBarText.GetComponent<TextMeshProUGUI>().text = "Wave Number = " + WaveNumber;
         waveBar.GetComponent<Image>().fillAmount = totalEnemyAmount / waveEnemyAmount;
-
-
-        if (newEnemy) // implement crossfadealpha here for new enemies.
-        {
-            // newEnemy_text.CrossFadeAlpha
-        }
     }
     public Vector2 CircleSpawnFunction()
     {
@@ -66,22 +62,6 @@ public class EnemySpawner : MonoBehaviour
 
         Vector2 SpawnPoint = new Vector2((float)xlen, (float)ylen);
         return SpawnPoint;
-    }
-    public void BeginSpawner()
-    {
-        // find the right enemies from the wave value
-        bool wave_continue= true;
-        // from file, get values (which enemies to spawn, how many will be spawned)
-        while(wave_continue){
-            for (int i = 0; i < 25; i++) 
-            // from the file, repeat this for loop for every enemy type that will be summoned, for the amount of enemy summon
-            {
-                Vector2 EnemySpawnPoint = CircleSpawnFunction();
-                Vector3 convert = new Vector3(EnemySpawnPoint.x, EnemySpawnPoint.y, 0);
-                Instantiate(chosenEnemies[0], convert, Quaternion.identity);
-            }
-            wave_continue = false;
-        }
     }
 
     public void WaveReader()
@@ -112,7 +92,8 @@ public class EnemySpawner : MonoBehaviour
 
         if(wave[0] == 'l') // lastwave condition
         {
-            // stop the next wave from spawning
+            lastWave_text.gameObject.SetActive(true);
+            lastWave_text.CrossFadeAlpha(0, 3f, false);
             // give alert of last wave.
         }
 
@@ -296,7 +277,7 @@ public class EnemySpawner : MonoBehaviour
 
     public void NewEnemy()
     {
-        //newenemy = true;
-        //newEnemy_text.SetActive(true);
+        newEnemy_text.gameObject.SetActive(true);
+        newEnemy_text.CrossFadeAlpha(0, 2f, false);
     }
 }
