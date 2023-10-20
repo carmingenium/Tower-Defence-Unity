@@ -140,7 +140,7 @@ public class EnemySpawner : MonoBehaviour
                     enemy = UnityEngine.Random.Range(9, 12);
                 } while (chosenEnemyIndex.Contains(enemy));
             }
-            // after new enemy has been selected  // !!!! AN ERROR HERE - OUT OF BOUNDS - CAUSES ALWAYS FAST ONES TO BE ADDED.
+            // after new enemy has been selected
             chosenEnemyIndex[enemy] = enemy;         // add enemy to chosen enemies
             chosenEnemies.Add(enemyPrefab[enemy]);  // add enemy to chosen enemies
             // these enemies will not be spawned this turn and this is intentional.
@@ -169,9 +169,13 @@ public class EnemySpawner : MonoBehaviour
             int tierOrder = currentLine[charIndex - 4] - '0';
             GameObject enemyToSummon = null;
 
-            switch (tierLevel) // BIG MISTAKE HERE, ORDER OF ENEMY AND THE INDEX OF ENEMY IS EQUALIZED, WHICH MEANS SECOND ENEMY IS ALWAYS FAST ONE;
+            // economy
+            int tier = -1;
+
+            switch (tierLevel) 
             {
                 case 1: //tier1
+                    tier = 1;
                     if (tierOrder == 1) // 0
                     {
                         enemyToSummon = chosenEnemies[0];
@@ -194,6 +198,7 @@ public class EnemySpawner : MonoBehaviour
                     }
                     break;
                 case 2:
+                    tier = 2;
                     if (tierOrder == 1) // 5
                     {
                         enemyToSummon = chosenEnemies[5];
@@ -212,6 +217,7 @@ public class EnemySpawner : MonoBehaviour
                     }
                     break;
                 case 3:
+                    tier = 3;
                     if (tierOrder == 1) // 9
                     {
                         enemyToSummon = chosenEnemies[9];
@@ -260,17 +266,18 @@ public class EnemySpawner : MonoBehaviour
             }
 
             // summon
-            SummonEnemies(summonAmount, enemyToSummon); 
+            SummonEnemies(summonAmount, enemyToSummon, tier); 
             totalEnemyAmount += summonAmount;
             waveEnemyAmount += summonAmount;
         }
         
     }
-    public void SummonEnemies(int summonAmount, GameObject enemy){
+    public void SummonEnemies(int summonAmount, GameObject enemy, int tier){
         for(int i = 0; i<summonAmount; i++){
             Vector2 EnemySpawnPoint = CircleSpawnFunction();
             Vector3 convert = new Vector3(EnemySpawnPoint.x, EnemySpawnPoint.y, 0);
-            Instantiate(enemy, convert, Quaternion.identity);
+            GameObject newEnemy = Instantiate(enemy, convert, Quaternion.identity);
+            newEnemy.GetComponent<EnemyAI>().Tier = tier;
         }
         
     }

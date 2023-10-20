@@ -39,8 +39,8 @@ public class TilemapController : MonoBehaviour
     }
     public void ChangeState(GameObject button) // in game tile change
     {
-
-        // check if state has gold prerequisite
+        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        // check if state has gold prerequisite  --->>> need to add gold prerequisites first.
         // if yes, remove required gold from gold
         // in this if yes condition, again if state is goldmine, add a miner script/or sth. that adds gold every loop.
         // else, set tilestate 
