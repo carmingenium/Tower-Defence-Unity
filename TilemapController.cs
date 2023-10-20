@@ -39,11 +39,17 @@ public class TilemapController : MonoBehaviour
     }
     public void ChangeState(GameObject button) // in game tile change
     {
+
+        // check if state has gold prerequisite
+        // if yes, remove required gold from gold
+        // in this if yes condition, again if state is goldmine, add a miner script/or sth. that adds gold every loop.
+        // else, set tilestate 
+
         // set tilestate
         activePanelTile.tileState = ReceiveState(button.name);
         activePanelTile.transform.gameObject.GetComponent<SpriteRenderer>().sprite = button.transform.GetComponent<Image>().sprite;
 
-        // Unit creation
+        // Unit creation // THIS HAS TO BE MOVED UP
         if(activePanelTile.tileState.Equals(state.tower1) || activePanelTile.tileState.Equals(state.tower2))
         {
             CreateUnit(activePanelTile);
@@ -53,7 +59,7 @@ public class TilemapController : MonoBehaviour
         PanelDeactivate(button.transform.parent.gameObject);
         this.gameObject.GetComponent<Pathfinding>().pathfindValueSet();
     }
-    public void ChangeState(Tile tile,state Tilestate, Sprite StateSprite) // Start tile setting
+    public void ChangeState(Tile tile,state Tilestate, Sprite StateSprite) // Start tile setting do not change
     {
         tile.tileState = Tilestate;
         tile.gameObject.GetComponent<SpriteRenderer>().sprite = StateSprite;

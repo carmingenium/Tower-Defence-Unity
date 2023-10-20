@@ -28,6 +28,8 @@ public class EnemyAI : MonoBehaviour
         if(hp <= 0)
         {
             GameObject.Find("EnemySpawner").GetComponent<EnemySpawner>().totalEnemyAmount -= 1;
+            // get tier of enemy
+            // give gold depending on the tier of Enemy
             Destroy(this.gameObject);
         }
         // get closer to target
