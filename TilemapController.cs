@@ -10,6 +10,8 @@ public class TilemapController : MonoBehaviour
     public Sprite[] allSprites;
 
     public GameObject UnitRange;
+
+    public Economy goldSystem;
     public void Start()
     {
         allSprites = new Sprite[9];
@@ -39,15 +41,70 @@ public class TilemapController : MonoBehaviour
     }
     public void ChangeState(GameObject button) // in game tile change
     {
-        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        // check if state has gold prerequisite  --->>> need to add gold prerequisites first.
-        // if yes, remove required gold from gold
-        // in this if yes condition, again if state is goldmine, add a miner script/or sth. that adds gold every loop.
-        // else, set tilestate 
+        // 
+        // check if state has gold prerequisite
+        switch (ReceiveState(button.name))
+        {
+            case state.Platformed:
+                if (goldSystem.gold >= 5) // Tower1 Price
+                {
+                    goldSystem.gold -= 5; // remove Price
+                    activePanelTile.tileState = ReceiveState(button.name); // set tilestate
+                    activePanelTile.transform.gameObject.GetComponent<SpriteRenderer>().sprite = button.transform.GetComponent<Image>().sprite; // set tilestate
+                }
+                else // not enough gold
+                {
+                    // ERROR
+                    activePanelTile.gameObject.GetComponent<Animator>().SetTrigger("error");
+                }
+                break;
+            case state.tower1:
+                if(goldSystem.gold >= 20) // Tower1 Price
+                {
+                    goldSystem.gold -= 20; // remove Price
+                    activePanelTile.tileState = ReceiveState(button.name); // set tilestate
+                    activePanelTile.transform.gameObject.GetComponent<SpriteRenderer>().sprite = button.transform.GetComponent<Image>().sprite; // set tilestate
+                }
+                else // not enough gold
+                {
+                    // ERROR
+                    activePanelTile.gameObject.GetComponent<Animator>().SetTrigger("error");
+                }
+                break;
+            case state.tower2:
+                if (goldSystem.gold >= 20) // Tower2 Price
+                {
+                    goldSystem.gold -= 20; // remove Price
+                    activePanelTile.tileState = ReceiveState(button.name); // set tilestate
+                    activePanelTile.transform.gameObject.GetComponent<SpriteRenderer>().sprite = button.transform.GetComponent<Image>().sprite; // set tilestate
+                }
+                else // not enough gold
+                {
+                    // ERROR
+                    activePanelTile.gameObject.GetComponent<Animator>().SetTrigger("error");
+                }
+                break;
+            case state.Mine:
+                if (goldSystem.gold >= 50) // GoldMine Price
+                {
+                    goldSystem.gold -= 50; // remove Price
+                    activePanelTile.tileState = ReceiveState(button.name); // set tilestate
+                    activePanelTile.transform.gameObject.GetComponent<SpriteRenderer>().sprite = button.transform.GetComponent<Image>().sprite; // set tilestate
+                    goldSystem.goldMineAmount += 1; // add mine income
+                }
+                else // not enough gold
+                {
+                    // ERROR
+                    activePanelTile.gameObject.GetComponent<Animator>().SetTrigger("error");
+                }
+                break;
+            default:
+                activePanelTile.tileState = ReceiveState(button.name); // set tilestate
+                activePanelTile.transform.gameObject.GetComponent<SpriteRenderer>().sprite = button.transform.GetComponent<Image>().sprite; // set tilestate
+                break;
 
-        // set tilestate
-        activePanelTile.tileState = ReceiveState(button.name);
-        activePanelTile.transform.gameObject.GetComponent<SpriteRenderer>().sprite = button.transform.GetComponent<Image>().sprite;
+        }
+        
 
         // Unit creation // THIS HAS TO BE MOVED UP
         if(activePanelTile.tileState.Equals(state.tower1) || activePanelTile.tileState.Equals(state.tower2))
