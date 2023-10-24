@@ -5,10 +5,10 @@ using UnityEngine;
 public class EnemyAI : MonoBehaviour
 {
     // Fundamentals
-    public float maxHP;
-    public float hp;
-    public Rigidbody2D rb;
-    public float speed;
+    public float maxHP;     // sbr
+    public float hp;        // sbr
+    public Rigidbody2D rb;  // sbr
+    public float speed;     // sbr
     // pathfinding
     public string behaviour;
     Vector2 targetPos;
