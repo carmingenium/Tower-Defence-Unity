@@ -14,6 +14,9 @@ public class EnemyAI : MonoBehaviour
     Vector2 targetPos;
     Vector2 direction;
     public Tile currentOnTile;
+
+    // economy
+    public int Tier;
     void Start()
     {
         maxHP = 100;    // sbr
@@ -28,8 +31,23 @@ public class EnemyAI : MonoBehaviour
         if(hp <= 0)     // sbr
         {
             GameObject.Find("EnemySpawner").GetComponent<EnemySpawner>().totalEnemyAmount -= 1;
-            // get tier of enemy
+            // calculate given gold from tier
+            int goldAmount = 0;
+            switch (Tier)
+            {
+                case 1:
+                    goldAmount = 2;
+                    break;
+                case 2:
+                    goldAmount = 5;
+                    break;
+                case 3:
+                    goldAmount = 10;
+                    break;
+            }
             // give gold depending on the tier of Enemy
+            GameObject.Find("Gold").GetComponent<Economy>().gold += goldAmount;
+            
             Destroy(this.gameObject);
         }
         // get closer to target

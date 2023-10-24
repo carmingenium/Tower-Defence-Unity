@@ -4,11 +4,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 
 public class MouseInput : MonoBehaviour
 {
-
+    public Transform pause;
     // NEW INPUT SYSTEM //
     private Selecting selectAction;
 
@@ -34,17 +35,6 @@ public class MouseInput : MonoBehaviour
         MousePos = new Vector3(MousePos.x, MousePos.y, MousePos.z + 2);
         // Debug.Log(MousePos);
 
-        //Collider[] returnList = Physics.OverlapSphere(MousePos, 5f, 3);
-        //if(returnList.Length != 1)
-        //{
-        //    Debug.Log("Error");
-        //    // error
-        //}
-        //else if(returnList.Length == 1)
-        //{
-        //    Debug.Log("PanelOpen");
-        //    returnList[0].GetComponent<Tile>().PanelOpen();
-        //}
 
         TilemapController tileMap = GameObject.FindGameObjectWithTag("Tilemap").GetComponent<TilemapController>();
         // check each tile for distance to mouseposition to get clicked tile.
@@ -52,7 +42,8 @@ public class MouseInput : MonoBehaviour
         {
             if (Vector3.Distance(MousePos, tile.transform.position) < 0.5f)
             {
-                tile.PanelOpen();
+                // if(Vector3.Distance(MousePos, pause.position) > 12f) // an attempt to fix pause menu opening a panel bug
+                tile.PanelOpen(); 
             }
         }
     }
