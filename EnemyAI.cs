@@ -16,8 +16,8 @@ public class EnemyAI : MonoBehaviour
     public Tile currentOnTile;
     void Start()
     {
-        maxHP = 100;
-        hp = maxHP;
+        maxHP = 100;    // sbr
+        hp = maxHP;     // sbr
         behaviour = "getclose";
         Tile target = GameObject.FindGameObjectWithTag("Tilemap").GetComponent<Pathfinding>().core;
         targetPos = target.transform.position;
@@ -25,7 +25,7 @@ public class EnemyAI : MonoBehaviour
 
     void Update()
     {
-        if(hp <= 0)
+        if(hp <= 0)     // sbr
         {
             GameObject.Find("EnemySpawner").GetComponent<EnemySpawner>().totalEnemyAmount -= 1;
             // get tier of enemy
@@ -51,8 +51,8 @@ public class EnemyAI : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        // movement
-        rb.velocity = new Vector2(direction.normalized.x * speed, direction.normalized.y * speed);
+        // movement     // sbr
+        rb.velocity = new Vector2(direction.normalized.x * speed, direction.normalized.y * speed);  // sbr
     }
     public void GetClose()
     {
@@ -154,7 +154,7 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
-    public void takeDamage(float dmg)
+    public void takeDamage(float dmg) // needs to be removed from EnemyAI and should have its own script
     {
         this.hp -= dmg;
     }
