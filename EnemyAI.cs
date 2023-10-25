@@ -4,23 +4,18 @@ using UnityEngine;
 
 public class EnemyAI : MonoBehaviour
 {
-    // Fundamentals
-    public float maxHP;     // sbr
-    public float hp;        // sbr
-    public Rigidbody2D rb;  // sbr
-    public float speed;     // sbr
+    // Movement
+    public Rigidbody2D rb;
+    public float speed;
     // pathfinding
     public string behaviour;
     Vector2 targetPos;
     Vector2 direction;
     public Tile currentOnTile;
 
-    // economy
-    public int Tier;
+
     void Start()
     {
-        maxHP = 100;    // sbr
-        hp = maxHP;     // sbr
         behaviour = "getclose";
         Tile target = GameObject.FindGameObjectWithTag("Tilemap").GetComponent<Pathfinding>().core;
         targetPos = target.transform.position;
@@ -28,28 +23,7 @@ public class EnemyAI : MonoBehaviour
 
     void Update()
     {
-        if(hp <= 0)     // sbr
-        {
-            GameObject.Find("EnemySpawner").GetComponent<EnemySpawner>().totalEnemyAmount -= 1;
-            // calculate given gold from tier
-            int goldAmount = 0;
-            switch (Tier)
-            {
-                case 1:
-                    goldAmount = 2;
-                    break;
-                case 2:
-                    goldAmount = 5;
-                    break;
-                case 3:
-                    goldAmount = 10;
-                    break;
-            }
-            // give gold depending on the tier of Enemy
-            GameObject.Find("Gold").GetComponent<Economy>().gold += goldAmount;
-            
-            Destroy(this.gameObject);
-        }
+
         // get closer to target
         if (behaviour.Equals("getclose"))
         {
@@ -69,9 +43,10 @@ public class EnemyAI : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        // movement     // sbr
-        rb.velocity = new Vector2(direction.normalized.x * speed, direction.normalized.y * speed);  // sbr
+        // movement
+        rb.velocity = new Vector2(direction.normalized.x * speed, direction.normalized.y * speed);
     }
+
     public void GetClose()
     {
         // set direction to the target
@@ -172,8 +147,5 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
-    public void takeDamage(float dmg) // needs to be removed from EnemyAI and should have its own script
-    {
-        this.hp -= dmg;
-    }
+
 }

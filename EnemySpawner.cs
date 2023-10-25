@@ -277,7 +277,7 @@ public class EnemySpawner : MonoBehaviour
             Vector2 EnemySpawnPoint = CircleSpawnFunction();
             Vector3 convert = new Vector3(EnemySpawnPoint.x, EnemySpawnPoint.y, 0);
             GameObject newEnemy = Instantiate(enemy, convert, Quaternion.identity);
-            newEnemy.GetComponent<EnemyAI>().Tier = tier;
+            newEnemy.GetComponent<EnemyHP>().Tier = tier;
         }
         
     }

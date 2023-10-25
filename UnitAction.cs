@@ -46,7 +46,7 @@ public class UnitAction : MonoBehaviour
 
 
         //Destroy(currentTarget.gameObject);
-        currentTarget.GetComponent<EnemyAI>().takeDamage(attackDMG); 
+        currentTarget.GetComponent<EnemyHP>().takeDamage(attackDMG); 
 
 
         currentTarget = null; // safety measurements
