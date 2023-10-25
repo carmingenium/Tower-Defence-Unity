@@ -4,13 +4,11 @@ using UnityEngine;
 
 public class EnemyAI : MonoBehaviour
 {
-    // Movement
-    public Rigidbody2D rb;
-    public float speed;
+
     // pathfinding
     public string behaviour;
     Vector2 targetPos;
-    Vector2 direction;
+    public Vector2 direction;
     public Tile currentOnTile;
 
 
@@ -41,11 +39,7 @@ public class EnemyAI : MonoBehaviour
             tilePathfinding();
         }
     }
-    private void FixedUpdate()
-    {
-        // movement
-        rb.velocity = new Vector2(direction.normalized.x * speed, direction.normalized.y * speed);
-    }
+
 
     public void GetClose()
     {
@@ -85,15 +79,15 @@ public class EnemyAI : MonoBehaviour
                 {
                     roadVals[i] = GameObject.FindGameObjectWithTag("Tilemap").GetComponent<TilemapController>().TileArray[currentOnTile.posx, currentOnTile.posy + 1].roadVal;
                 }
-                if (i == 1)
+                else if (i == 1)
                 {
                     roadVals[i] = GameObject.FindGameObjectWithTag("Tilemap").GetComponent<TilemapController>().TileArray[currentOnTile.posx, currentOnTile.posy - 1].roadVal;
                 }
-                if (i == 2)
+                else if (i == 2)
                 {
                     roadVals[i] = GameObject.FindGameObjectWithTag("Tilemap").GetComponent<TilemapController>().TileArray[currentOnTile.posx + 1, currentOnTile.posy].roadVal;
                 }
-                if (i == 3)
+                else if (i == 3)
                 {
                     roadVals[i] = GameObject.FindGameObjectWithTag("Tilemap").GetComponent<TilemapController>().TileArray[currentOnTile.posx - 1, currentOnTile.posy].roadVal;
                 }
@@ -124,21 +118,21 @@ public class EnemyAI : MonoBehaviour
             direction = new Vector2(newTargetTilePos.x - this.transform.position.x, newTargetTilePos.y - this.transform.position.y);
             //direction = Vector2.up;
         }
-        if (lowestPos == 1)
+        else if (lowestPos == 1)
         {
             // go down
             Vector3 newTargetTilePos = GameObject.FindGameObjectWithTag("Tilemap").GetComponent<TilemapController>().TileArray[currentOnTile.posx, currentOnTile.posy - 1].transform.position;
             direction = new Vector2(newTargetTilePos.x - this.transform.position.x, newTargetTilePos.y - this.transform.position.y);
             //direction = Vector2.down;
         }
-        if (lowestPos == 2)
+        else if (lowestPos == 2)
         {
             // go right
             Vector3 newTargetTilePos = GameObject.FindGameObjectWithTag("Tilemap").GetComponent<TilemapController>().TileArray[currentOnTile.posx + 1, currentOnTile.posy].transform.position;
             direction = new Vector2(newTargetTilePos.x - this.transform.position.x, newTargetTilePos.y - this.transform.position.y);
             //direction = Vector2.right;
         }
-        if (lowestPos == 3)
+        else if (lowestPos == 3)
         {
             // go left
             Vector3 newTargetTilePos = GameObject.FindGameObjectWithTag("Tilemap").GetComponent<TilemapController>().TileArray[currentOnTile.posx - 1, currentOnTile.posy].transform.position;
