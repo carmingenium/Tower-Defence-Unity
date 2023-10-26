@@ -94,7 +94,7 @@ public class EnemyAI : MonoBehaviour
             }
             else
             {
-                roadVals[i] = 999;
+                roadVals[i] = 1000; // nonexistent tiles
             }
         }
         // find lowest value tile
