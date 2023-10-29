@@ -130,7 +130,8 @@ public class EnemySpawner : MonoBehaviour
             {
                 do
                 {
-                    enemy = UnityEngine.Random.Range(5, 9);
+                    // enemy = UnityEngine.Random.Range(5, 9); TESTING DONT FORGET TO FIX IT BACK !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                    enemy = 5;
                 } while (chosenEnemyIndex.Contains(enemy));
             }
             else if (currentLine[5] == '3')  // Tier3
@@ -201,7 +202,7 @@ public class EnemySpawner : MonoBehaviour
                     tier = 2;
                     if (tierOrder == 1) // 5
                     {
-                        enemyToSummon = chosenEnemies[5];
+                        enemyToSummon = chosenEnemies[2]; // for test we are going to change this !!!!!!!!!!!!!!!!!!!!! this will be reverted back to 5
                     }
                     else if (tierOrder == 2) // 6
                     {

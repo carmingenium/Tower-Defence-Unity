@@ -11,10 +11,11 @@ public class JumperAI : MonoBehaviour
             //if no dont jump, add smaller cooldown
     public float cooldown;
     public Tile currentOnTile;
-
+    public Vector2 direction;
+    public Tile target;
     public void Start()
     {
-        
+        cooldown = 10;
     }
     public void Update() {
         currentOnTile = this.GetComponent<EnemyAI>().currentOnTile;
@@ -22,6 +23,7 @@ public class JumperAI : MonoBehaviour
         {
             SkillPath();
         }
+        if(cooldown > 0) cooldown -= Time.deltaTime;
          
     }
     public void SkillPath()
@@ -98,6 +100,7 @@ public class JumperAI : MonoBehaviour
                 minJump = temp[lowest];
                 if(lowest < 4) // if lowest value is a jump, jumping true
                 {
+                    target = roadValToTile(lowest);
                     Jumping = true;
                 }
                 else
@@ -108,21 +111,39 @@ public class JumperAI : MonoBehaviour
         }
         if (Jumping)    // if shortest path does include jumping over a platform, jump over and give long cooldown.
         {
-            Jump();
-            cooldown = 7;
+            // Set moveState to jumping
+            this.GetComponent<EnemyMovement>().moveState = "jumping";
+            this.GetComponent<Animator>().SetTrigger("Jump");
+            cooldown = 12;
         }
         else            // If shortest path DOES NOT include jumping over a platform, give short cooldown.
         {
             cooldown = 2;
         }
     }
-    public void Jump()
+    public Tile roadValToTile(int val)
     {
-        // Set moveState to jumping
-        // Set target tile
-
-        // Set direction to target tile
-        // Start Animation of jumping on the direction with certain speed
-        // When animation is done, set moveState to normal
+        Tile target = null;
+        if(val == 0)
+        {
+            // up
+            target = GameObject.FindGameObjectWithTag("Tilemap").GetComponent<TilemapController>().TileArray[currentOnTile.posx, currentOnTile.posy + 2];
+        }
+        else if(val == 1)
+        {
+            // down
+            target = GameObject.FindGameObjectWithTag("Tilemap").GetComponent<TilemapController>().TileArray[currentOnTile.posx, currentOnTile.posy - 2];
+        }
+        else if(val == 2)
+        {
+            // right
+            target = GameObject.FindGameObjectWithTag("Tilemap").GetComponent<TilemapController>().TileArray[currentOnTile.posx + 2, currentOnTile.posy];
+        }
+        else if(val == 3)
+        {
+            // left
+            target = GameObject.FindGameObjectWithTag("Tilemap").GetComponent<TilemapController>().TileArray[currentOnTile.posx - 2, currentOnTile.posy];
+        }
+        return target;
     }
 }

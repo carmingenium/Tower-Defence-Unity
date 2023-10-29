@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class EnemyMovement : MonoBehaviour
 {
@@ -19,6 +20,12 @@ public class EnemyMovement : MonoBehaviour
         if(moveState == "normal")
         {
             direction = this.GetComponent<EnemyAI>().direction;
+        }
+        else if(moveState == "jumping")
+        {
+            Vector2 direction = new Vector2(this.GetComponent<JumperAI>().target.transform.position.x - this.GetComponent<EnemyAI>().currentOnTile.transform.position.x, 
+                                            this.GetComponent<JumperAI>().target.transform.position.y - this.GetComponent<EnemyAI>().currentOnTile.transform.position.y);
+            if(this.GetComponent<EnemyAI>().currentOnTile == this.GetComponent<JumperAI>().target) moveState = "normal";
         }
     }
 
