@@ -10,13 +10,26 @@ public class JumperAI : MonoBehaviour
             //if yes jump over and add cooldown
             //if no dont jump, add smaller cooldown
     public float cooldown;
+    public Tile currentOnTile;
 
-    public void Update(){
-        if(cooldown <= 0){
-            // possible tile check
-            bool[] possibleTiles = GameObject.FindGameObjectWithTag("Tilemap").GetComponent<Pathfinding>().possibleTileCheck(currentOnTile);
-            // from possible tiles, platform check.
-            float[] roadVals = new float[4];
+    public void Start()
+    {
+        
+    }
+    public void Update() {
+        currentOnTile = this.GetComponent<EnemyAI>().currentOnTile;
+        if(cooldown <= 0)
+        {
+            SkillPath();
+        }
+         
+    }
+    public void SkillPath()
+    {
+        // possible tile check
+        bool[] possibleTiles = GameObject.FindGameObjectWithTag("Tilemap").GetComponent<Pathfinding>().possibleTileCheck(currentOnTile);
+        // from possible tiles, platform check.
+        float[] roadVals = new float[4];
         for (int i = 0; i < 4; i++)
         {
             if (possibleTiles[i] == true)
@@ -44,40 +57,72 @@ public class JumperAI : MonoBehaviour
             }
         }
 
-        float minJump = -1;
+        float minJump = 999;
         float[] temp = new float[8];
-        for(float tile=0; tile<4; tile++)
+        for (float tile = 0; tile < 4; tile++)
         {
-            switch(tile) 
+            switch (tile)
             {
                 case 0: // up
-                    if(roadVals[0] == 999)
-                        float temp[0] = GameObject.FindGameObjectWithTag("Tilemap").GetComponent<TilemapController>().TileArray[currentOnTile.posx, currentOnTile.posy + 2].roadVal;
+                    if (roadVals[0] == 999)
+                        temp[0] = GameObject.FindGameObjectWithTag("Tilemap").GetComponent<TilemapController>().TileArray[currentOnTile.posx, currentOnTile.posy + 2].roadVal;
                     else
-                        float temp[4] = GameObject.FindGameObjectWithTag("Tilemap").GetComponent<TilemapController>().TileArray[currentOnTile.posx, currentOnTile.posy + 1].roadVal;
+                        temp[4] = GameObject.FindGameObjectWithTag("Tilemap").GetComponent<TilemapController>().TileArray[currentOnTile.posx, currentOnTile.posy + 1].roadVal;
                     break;
                 case 1: // down
-                    if(roadVals[1] == 999)
-                        float temp[1] = GameObject.FindGameObjectWithTag("Tilemap").GetComponent<TilemapController>().TileArray[currentOnTile.posx, currentOnTile.posy - 2].roadVal;
+                    if (roadVals[1] == 999)
+                        temp[1] = GameObject.FindGameObjectWithTag("Tilemap").GetComponent<TilemapController>().TileArray[currentOnTile.posx, currentOnTile.posy - 2].roadVal;
                     else
-                        float temp[5] = GameObject.FindGameObjectWithTag("Tilemap").GetComponent<TilemapController>().TileArray[currentOnTile.posx, currentOnTile.posy - 1].roadVal;
+                        temp[5] = GameObject.FindGameObjectWithTag("Tilemap").GetComponent<TilemapController>().TileArray[currentOnTile.posx, currentOnTile.posy - 1].roadVal;
                     break;
                 case 2: // right
-                    if(roadVals[2] == 999)
-                        float temp[2] = GameObject.FindGameObjectWithTag("Tilemap").GetComponent<TilemapController>().TileArray[currentOnTile.posx + 2, currentOnTile.posy].roadVal;
+                    if (roadVals[2] == 999)
+                        temp[2] = GameObject.FindGameObjectWithTag("Tilemap").GetComponent<TilemapController>().TileArray[currentOnTile.posx + 2, currentOnTile.posy].roadVal;
                     else
-                        float temp[6] = GameObject.FindGameObjectWithTag("Tilemap").GetComponent<TilemapController>().TileArray[currentOnTile.posx + 1, currentOnTile.posy].roadVal;
+                        temp[6] = GameObject.FindGameObjectWithTag("Tilemap").GetComponent<TilemapController>().TileArray[currentOnTile.posx + 1, currentOnTile.posy].roadVal;
                     break;
                 case 3: // left
-                    if(roadVals[3] == 999)
-                        float temp[3] = GameObject.FindGameObjectWithTag("Tilemap").GetComponent<TilemapController>().TileArray[currentOnTile.posx - 2, currentOnTile.posy].roadVal;
+                    if (roadVals[3] == 999)
+                        temp[3] = GameObject.FindGameObjectWithTag("Tilemap").GetComponent<TilemapController>().TileArray[currentOnTile.posx - 2, currentOnTile.posy].roadVal;
                     else
-                        float temp[7] = GameObject.FindGameObjectWithTag("Tilemap").GetComponent<TilemapController>().TileArray[currentOnTile.posx - 1, currentOnTile.posy].roadVal;
+                        temp[7] = GameObject.FindGameObjectWithTag("Tilemap").GetComponent<TilemapController>().TileArray[currentOnTile.posx - 1, currentOnTile.posy].roadVal;
                     break;
             }
         }
-        // after all the values, find shortest path and follow it. 
-        // If shortest path DOES NOT include jumping over a platform, give short cooldown.
-        // else if shortest path does include jumping over a platform, jump over and give long cooldown.
+        // after all the values are found, find shortest path and follow it. 
+        bool Jumping = false;
+        for(int lowest = 0; lowest < 8; lowest++)
+        {
+            if (temp[lowest] < minJump)
+            {   
+                minJump = temp[lowest];
+                if(lowest < 4) // if lowest value is a jump, jumping true
+                {
+                    Jumping = true;
+                }
+                else
+                {
+                    Jumping = false;
+                }
+            }
+        }
+        if (Jumping)    // if shortest path does include jumping over a platform, jump over and give long cooldown.
+        {
+            Jump();
+            cooldown = 7;
+        }
+        else            // If shortest path DOES NOT include jumping over a platform, give short cooldown.
+        {
+            cooldown = 2;
+        }
+    }
+    public void Jump()
+    {
+        // Set moveState to jumping
+        // Set target tile
+
+        // Set direction to target tile
+        // Start Animation of jumping on the direction with certain speed
+        // When animation is done, set moveState to normal
     }
 }
