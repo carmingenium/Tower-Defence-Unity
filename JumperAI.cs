@@ -27,7 +27,7 @@ public class JumperAI : MonoBehaviour
         { 
             // check adjacent tiles
            bool[] possibleTiles = GameObject.FindGameObjectWithTag("Tilemap").GetComponent<Pathfinding>().possibleTileCheck(
-            this.gameObject.GetComponent<EnemyAI>().currentOnTile);
+            this.GetComponent<EnemyAI>().currentOnTile);
             // if there is a platform
             Tile[] platforms = new Tile[4];
             List<Tile> adjacentTiles = new List<Tile>();
@@ -37,28 +37,28 @@ public class JumperAI : MonoBehaviour
                     switch (possible)
                         case 0: //0 up
                             // get current tile
-                            Tile current = map[this.gameObject.GetComponent<EnemyAI>().currentOnTile.posx , this.gameObject.GetComponent<EnemyAI>().currentOnTile.posy + 1];
+                            Tile current = map[this.GetComponent<EnemyAI>().currentOnTile.posx , this.GetComponent<EnemyAI>().currentOnTile.posy + 1];
                             // if current tile is a platform
                             if(current.tileState == state.Platformed)
                                 platforms[0] = current; // then add it to platforms
                             adjacentTiles.Add(current); // add adjacent to adjacent tiles
                             break;
                         case 1: //1 down
-                            Tile current = map[this.gameObject.GetComponent<EnemyAI>().currentOnTile.posx , this.gameObject.GetComponent<EnemyAI>().currentOnTile.posy - 1];
+                            Tile current = map[this.GetComponent<EnemyAI>().currentOnTile.posx , this.GetComponent<EnemyAI>().currentOnTile.posy - 1];
                             // if current tile is a platform
                             if(current.tileState == state.Platformed)
                                 platforms[1] = current; // then add it to platforms
                             adjacentTiles.Add(current); // add adjacent to adjacent tiles
                             break;
                         case 2: // 2 right
-                            Tile current = map[this.gameObject.GetComponent<EnemyAI>().currentOnTile.posx+1 , this.gameObject.GetComponent<EnemyAI>().currentOnTile.posy];
+                            Tile current = map[this.GetComponent<EnemyAI>().currentOnTile.posx+1 , this.GetComponent<EnemyAI>().currentOnTile.posy];
                             // if current tile is a platform
                             if(current.tileState == state.Platformed)
                                 platforms[2] = current; // then add it to platforms
                             adjacentTiles.Add(current); // add adjacent to adjacent tiles
                             break;
                         case 3: // 3 left
-                            Tile current = map[this.gameObject.GetComponent<EnemyAI>().currentOnTile.posx - 1 , this.gameObject.GetComponent<EnemyAI>().currentOnTile.posy];
+                            Tile current = map[this.GetComponent<EnemyAI>().currentOnTile.posx - 1 , this.GetComponent<EnemyAI>().currentOnTile.posy];
                             // if current tile is a platform
                             if(current.tileState == state.Platformed)
                                 platforms[3] = current; // then add it to platforms
@@ -126,9 +126,9 @@ public class JumperAI : MonoBehaviour
                     // set target direction to tile behind platform and jump to it
                     direction = new Vector2(newTarget.transform.position.x - this.transform.position.x, newTarget.transform.position.y - this.transform.position.y);
                     // set movestate to jumping
-                    this.gameObject.GetComponent<EnemyMovement>().moveState = "jumping";
+                    this.GetComponent<EnemyMovement>().moveState = "jumping";
                     // set enemy collider to trigger
-                    this.gameObject.GetComponent<BoxCollider2D>().isTrigger = true;
+                    this.GetComponent<BoxCollider2D>().isTrigger = true;
                     // NEED TO SET IT BACK TO NOT TRIGGER LATER ON (im not sure if it is even necessary)
                     // set large cooldown
                     cooldown = 10;
