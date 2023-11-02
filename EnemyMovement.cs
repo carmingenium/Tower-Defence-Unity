@@ -23,8 +23,7 @@ public class EnemyMovement : MonoBehaviour
         }
         else if(moveState == "jumping")
         {
-            Vector2 direction = new Vector2(this.GetComponent<JumperAI>().target.transform.position.x - this.GetComponent<EnemyAI>().currentOnTile.transform.position.x, 
-                                            this.GetComponent<JumperAI>().target.transform.position.y - this.GetComponent<EnemyAI>().currentOnTile.transform.position.y);
+            Vector2 direction = this.GetComponent<JumperAI>().direction;
             if(this.GetComponent<EnemyAI>().currentOnTile == this.GetComponent<JumperAI>().target) moveState = "normal";
         }
     }
