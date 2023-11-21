@@ -25,6 +25,5 @@ public class Economy : MonoBehaviour
     public void Start()
     {
         goldMineAmount = 0;
-        gold = 100;
     }
 }
