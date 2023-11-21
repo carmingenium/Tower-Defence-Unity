@@ -4,140 +4,133 @@ using UnityEngine;
 
 public class JumperAI : MonoBehaviour
 {
-    // have a cooldown
-    // if cooldown <= 0
-    // check adjacent tiles
-        // if there is a platform
-            // check adjacent lowest RoadVal and tile behind the platform
-                // if tile behind the platform is lower roadVal than current target
-                    // set target to tile behind platform and jump to it
-                    // set large cooldown
-                // else
-                    // set low cooldown and continue
-    public float cooldown;   // have a cooldown
-    public Tile[,] map;      // map to check adjacents
+    // START condition: cooldown = 0; d
+    // check if adjacent tiles exist d
+    // for each adjacent tile, check if existing tiles have platforms d
+    // if no platforms, set cooldown = 3; d
+    // for each platform, check if tiles across platforms exist d
+    // if no tiles, set cooldown = 3; d
+    // for each existing tile, check if their value is lower than lowest adjacent value
+    // if none is lower, set cooldown = 3;
+    // if one is lower, set new directions to that tile UNTIL that tile is reached (could be done by distance).
 
-    public Vector2 direction;   // direction to move in
+    int cooldown;
+    Vector2 direction;
+    Tile[,] map;
 
-    public void Start(){
+    bool jumpState; // could be converted to string
+
+    public void Start()
+    {
+        cooldown = 15;
         map = GameObject.FindGameObjectWithTag("Tilemap").GetComponent<Pathfinding>().tileMap;
+
     }
-    public void Update(){
-        if(cooldown <= 0)     // if cooldown <= 0
-        { 
-            // check adjacent tiles
-           bool[] possibleTiles = GameObject.FindGameObjectWithTag("Tilemap").GetComponent<Pathfinding>().possibleTileCheck(
+
+    public void Update()
+    {
+        if(cooldown <= 0) 
+        {
+            cooldown = Jump();
+        }
+        else
+        {
+            cooldown -= Time.deltaTime
+        }
+    }
+    
+    public int Jump()
+    {
+        // first check adjacent tiles for if they exist
+        bool[] possibleTiles = GameObject.FindGameObjectWithTag("Tilemap").GetComponent<Pathfinding>().possibleTileCheck(
             this.GetComponent<EnemyAI>().currentOnTile);
-            // if there is a platform
-            Tile[] platforms = new Tile[4];
-            List<Tile> adjacentTiles = new List<Tile>();
-            for(int possible = 0; possible<4;possible++){
-                // 0 up, 1 down, 2 right, 3 left
-                if(possibleTiles[possible]){
-                    switch (possible)
-                        case 0: //0 up
-                            // get current tile
-                            Tile current = map[this.GetComponent<EnemyAI>().currentOnTile.posx , this.GetComponent<EnemyAI>().currentOnTile.posy + 1];
-                            // if current tile is a platform
-                            if(current.tileState == state.Platformed)
-                                platforms[0] = current; // then add it to platforms
-                            adjacentTiles.Add(current); // add adjacent to adjacent tiles
-                            break;
-                        case 1: //1 down
-                            Tile current = map[this.GetComponent<EnemyAI>().currentOnTile.posx , this.GetComponent<EnemyAI>().currentOnTile.posy - 1];
-                            // if current tile is a platform
-                            if(current.tileState == state.Platformed)
-                                platforms[1] = current; // then add it to platforms
-                            adjacentTiles.Add(current); // add adjacent to adjacent tiles
-                            break;
-                        case 2: // 2 right
-                            Tile current = map[this.GetComponent<EnemyAI>().currentOnTile.posx+1 , this.GetComponent<EnemyAI>().currentOnTile.posy];
-                            // if current tile is a platform
-                            if(current.tileState == state.Platformed)
-                                platforms[2] = current; // then add it to platforms
-                            adjacentTiles.Add(current); // add adjacent to adjacent tiles
-                            break;
-                        case 3: // 3 left
-                            Tile current = map[this.GetComponent<EnemyAI>().currentOnTile.posx - 1 , this.GetComponent<EnemyAI>().currentOnTile.posy];
-                            // if current tile is a platform
-                            if(current.tileState == state.Platformed)
-                                platforms[3] = current; // then add it to platforms
-                            adjacentTiles.Add(current); // add adjacent to adjacent tiles
-                            break;
+
+        // check existing tiles if they are platforms
+        Tile[] platforms = new Tile[4];  // array to save platform tiles with their directions
+        int notPlatformCount = 0;
+        for(int i = 0; i < 4; i++)
+        {
+            // 0 up, 1 down, 2 right, 3 left
+            if (possibleTiles[i])
+            {
+                int x = this.GetComponent<EnemyAI>().currentOnTile.posx;
+                int y = this.GetComponent<EnemyAI>().currentOnTile.posy;
+                switch (i)
+                {
+                    case 0:
+                        if (map[x, y + 1].tileState == Platformed)
+                            platforms[i] = map[x, y + 1];
+                        break;
+                    case 1:
+                        if (map[x, y - 1].tileState == Platformed)
+                            platforms[i] = map[x, y - 1];
+                        break;
+                    case 2:
+                        if (map[x + 1, y].tileState == Platformed)
+                            platforms[i] = map[x + 1, y];
+                        break;
+                    case 3:
+                        if (map[x - 1, y].tileState == Platformed)
+                            platforms[i] = map[x - 1, y];
+                        break;
                 }
             }
-            if(platforms.Count == 0){ // if there are no platforms to jump over, set small cooldown and continue
-                cooldown = 2;
-            }
-            else{
-                // Find normal target that enemy is supposed to go to.
-                int lowestAdjacentRoadVal = 998;
-                foreach(Tile tile in adjacentTiles){
-                    if(tile.roadVal < lowestAdjacentRoadVal)
-                        lowestAdjacentRoadVal = tile.roadVal;
-                }
-                // then compare that target to the tiles behind the adjacent platforms.
-                int lowestJump = 998;
-                Tile newTarget = null;
-                for(int direct = 0; direct < 4; direct++){
-                    switch (direct)
-                        case 0: // up
-                            if(platforms[0] != null){
-                                Tile tileBehind = map[platforms[0].posx, platforms[0].posy + 1];
-                                if(tileBehind.roadVal < lowestJump){
-                                    lowestJump = tileBehind.roadVal;
-                                    newTarget = tileBehind;
-                                }
-                                    
-                            }
-                            break;
-                        case 1: // down
-                            if(platforms[1] != null){
-                                Tile tileBehind = map[platforms[1].posx, platforms[1].posy - 1];
-                                if(tileBehind.roadVal < lowestJump){
-                                    lowestJump = tileBehind.roadVal;
-                                    newTarget = tileBehind;
-                                }
-                            }
-                            break;
-                        case 2: // right
-                            if(platforms[2] != null){
-                                Tile tileBehind = map[platforms[2].posx + 1, platforms[2].posy];
-                                if(tileBehind.roadVal < lowestJump){
-                                    lowestJump = tileBehind.roadVal;
-                                    newTarget = tileBehind;
-                                }
-                            }
-                            break;
-                        case 3: // left
-                            if(platforms[3] != null){
-                                Tile tileBehind = map[platforms[3].posx - 1, platforms[3].posy];
-                                if(tileBehind.roadVal < lowestJump){
-                                    lowestJump = tileBehind.roadVal;
-                                    newTarget = tileBehind;
-                                }
-                            }
-                            break;
-                }
-                if(lowestJump > lowestAdjacentRoadVal){
-                    cooldown = 2;
-                }
-                else{
-                    // set target direction to tile behind platform and jump to it
-                    direction = new Vector2(newTarget.transform.position.x - this.transform.position.x, newTarget.transform.position.y - this.transform.position.y);
-                    // set movestate to jumping
-                    this.GetComponent<EnemyMovement>().moveState = "jumping";
-                    // set enemy collider to trigger
-                    this.GetComponent<BoxCollider2D>().isTrigger = true;
-                    // NEED TO SET IT BACK TO NOT TRIGGER LATER ON (im not sure if it is even necessary)
-                    // set large cooldown
-                    cooldown = 10;
-                }
-            }
-             
+            else
+                notPlatformCount++;
         }
-        else{
-            cooldown -= Time.deltaTime;
+        if(notPlatformCount = 4)
+        {
+            return 3; // set cooldown 3;
         }
+
+        // for each platform check if tiles across the platforms exist
+        Tile[] jumpables = new Tile[4];
+        int notExistingTile = 0;
+        for(int i = 0; i < 4; i++)
+        {
+            if (platforms[i] != null)
+            {
+                int x = this.GetComponent<EnemyAI>().currentOnTile.posx;
+                int y = this.GetComponent<EnemyAI>().currentOnTile.posy;
+                switch (i)
+                {
+                    case 0:
+                        if (y + 2 < 51) // up
+                        {
+                            jumpables[i] = platforms[i];
+                        }
+                        break;
+                    case 1:
+                        if (y - 2 > 0) // down
+                        {
+                            jumpables[i] = platforms[i];
+                        }
+                        break;
+                    case 2:
+                        if (x + 2 < 51) // right
+                        {
+                            jumpables[i] = platforms[i];
+                        }
+                        break;
+                    case 3:
+                        if (x - 2 > 0) // left
+                        {
+                            jumpables[i] = platforms[i];
+                        }
+                        break;
+                }
+            }
+            else
+                notExistingTile++;
+        }
+        if (notExistingTile == 4)
+            return 3; // set cooldown
+        // for each existing tile, check their roadvalue to adjacent lowest roadval
+
+
+    }
+    public int adjacentLowestRoadVal()
+    {
+
     }
 }
