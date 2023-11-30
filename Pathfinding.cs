@@ -7,7 +7,7 @@ public class Pathfinding : MonoBehaviour
     // attach to Map
 
 
-    Tile[,] tileMap;
+    public Tile[,] tileMap;
     public Tile core;
     void Start()
     {

@@ -14,7 +14,7 @@ public class JumperAI : MonoBehaviour
     // if none is lower, set cooldown = 3; d
     // if one is lower, set new directions to that tile UNTIL that tile is reached (could be done by distance). d
 
-    int cooldown;
+    float cooldown;
     public Vector2 direction;
     Tile[,] map;
 
@@ -35,9 +35,9 @@ public class JumperAI : MonoBehaviour
         }
         else
         {
-            cooldown -= Time.deltaTime
+            cooldown -= Time.deltaTime;
         }
-        if(Vector2.distance(this.transform.position, direction) < 0.1f) // IF TARGET TILE IS REACHED, STOP JUMPING;
+        if(Vector2.Distance(this.transform.position, direction) < 0.1f) // IF TARGET TILE IS REACHED, STOP JUMPING;
         {
             this.GetComponent<EnemyMovement>().moveState = "normal";
             // set cooldown to 15
@@ -64,19 +64,19 @@ public class JumperAI : MonoBehaviour
                 switch (i)
                 {
                     case 0:
-                        if (map[x, y + 1].tileState == Platformed)
+                        if (map[x, y + 1].tileState == state.Platformed)
                             platforms[i] = map[x, y + 1];
                         break;
                     case 1:
-                        if (map[x, y - 1].tileState == Platformed)
+                        if (map[x, y - 1].tileState == state.Platformed)
                             platforms[i] = map[x, y - 1];
                         break;
                     case 2:
-                        if (map[x + 1, y].tileState == Platformed)
+                        if (map[x + 1, y].tileState == state.Platformed)
                             platforms[i] = map[x + 1, y];
                         break;
                     case 3:
-                        if (map[x - 1, y].tileState == Platformed)
+                        if (map[x - 1, y].tileState == state.Platformed)
                             platforms[i] = map[x - 1, y];
                         break;
                 }
@@ -84,7 +84,7 @@ public class JumperAI : MonoBehaviour
             else
                 notPlatformCount++;
         }
-        if(notPlatformCount = 4)
+        if(notPlatformCount == 4)
         {
             return 3; // set cooldown 3;
         }
@@ -103,28 +103,28 @@ public class JumperAI : MonoBehaviour
                     case 0:
                         if (y + 2 < 51) // up
                         {
-                            if (map[x, y + 2].tileState == Empty)   // also checking if existing tile is jumpable
+                            if (map[x, y + 2].tileState == state.Empty)   // also checking if existing tile is jumpable
                                 jumpables[i] = platforms[i];
                         }
                         break;
                     case 1:
                         if (y - 2 > 0) // down
                         {
-                            if (map[x, y - 2].tileState == Empty)   // also checking if existing tile is jumpable
+                            if (map[x, y - 2].tileState == state.Empty)   // also checking if existing tile is jumpable
                             jumpables[i] = platforms[i];
                         }
                         break;
                     case 2:
                         if (x + 2 < 51) // right
                         {
-                            if (map[x + 2, y].tileState == Empty)   // also checking if existing tile is jumpable
+                            if (map[x + 2, y].tileState == state.Empty)   // also checking if existing tile is jumpable
                             jumpables[i] = platforms[i];
                         }
                         break;
                     case 3:
                         if (x - 2 > 0) // left
                         {
-                            if (map[x - 2, y].tileState == Empty)   // also checking if existing tile is jumpable
+                            if (map[x - 2, y].tileState == state.Empty)   // also checking if existing tile is jumpable
                             jumpables[i] = platforms[i];
                         }
                         break;
@@ -143,28 +143,29 @@ public class JumperAI : MonoBehaviour
         {
             if (jumpables[i] != null)
             {
-                if (jumpables[i].roadValue < lowestRoadVal)
+                if (jumpables[i].roadVal < lowestRoadVal)
                     jumpTo = jumpables[i];
             }
         }
         if(jumpTo == null)
-            cooldown = 3;
+            return 3;// set cooldown
         else
         {
             // set direction to jumpTo
             direction = new Vector2(jumpTo.posx,jumpTo.posy);
             // set jumpState to true
             this.GetComponent<EnemyMovement>().moveState = "jumping";
-            cooldown = 15;
+            return 15;// set cooldown
         }
-
+        return 3;
     }
     public int adjacentLowestRoadVal(bool[] possibleTiles)
     {
         int x = this.GetComponent<EnemyAI>().currentOnTile.posx;
         int y = this.GetComponent<EnemyAI>().currentOnTile.posy;
 
-        count = 0;
+        int count = 0;
+        int LowestRoadVal = 1000;
         foreach(bool tile in possibleTiles)
         {
             if (tile)
@@ -172,23 +173,24 @@ public class JumperAI : MonoBehaviour
                 switch (count)
                 {
                     case 0:
-                        if (map[x, y + 1].roadValue < map[x, y].roadValue)
-                            return map[x, y + 1].roadValue;
+                        if (map[x, y + 1].roadVal < map[x, y].roadVal)
+                            LowestRoadVal = map[x, y + 1].roadVal;
                         break;
                     case 1:
-                        if (map[x, y - 1].roadValue < map[x, y].roadValue)
-                            return map[x, y - 1].roadValue;
+                        if (map[x, y - 1].roadVal < map[x, y].roadVal)
+                            LowestRoadVal = map[x, y - 1].roadVal;
                         break;
                     case 2:
-                        if (map[x + 1, y].roadValue < map[x, y].roadValue)
-                            return map[x + 1, y].roadValue;
+                        if (map[x + 1, y].roadVal < map[x, y].roadVal)
+                            LowestRoadVal = map[x + 1, y].roadVal;
                         break;
                     case 3:
-                        if (map[x - 1, y].roadValue < map[x, y].roadValue)
-                            return map[x - 1, y].roadValue;
+                        if (map[x - 1, y].roadVal < map[x, y].roadVal)
+                            LowestRoadVal = map[x - 1, y].roadVal;
                         break;
                 }
             }
         }
+        return LowestRoadVal;
     }
 }
