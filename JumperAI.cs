@@ -157,7 +157,6 @@ public class JumperAI : MonoBehaviour
             this.GetComponent<EnemyMovement>().moveState = "jumping";
             return 15;// set cooldown
         }
-        return 3;
     }
     public int adjacentLowestRoadVal(bool[] possibleTiles)
     {
